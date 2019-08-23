@@ -19,6 +19,8 @@ class Road {
     weak var f1: Flag?
     weak var f2: Flag?
 
+    let worker = Worker()
+
     lazy var node: SKShapeNode? = {
         guard let start = f1?.position, let end = f2?.position else {
             return nil

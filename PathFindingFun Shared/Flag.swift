@@ -10,6 +10,10 @@ import Foundation
 import SpriteKit
 
 class Flag: Hashable {
+
+    static let settings = TransportationSettings()
+    static var maxResourcesPerFlag = 4
+
     private static var flagNum = 1
 
     let num: Int
@@ -23,8 +27,38 @@ class Flag: Hashable {
     var roads = [Road]()
     var position: CGPoint
 
+    var resourceRequests = [ResourceRouteRequest]()
+
+    func canAcceptRequest() -> Bool {
+        return resourceRequests.count < Flag.maxResourcesPerFlag
+    }
+
     var connectedFlags: [Flag] {
         return roads.compactMap({ $0.f1 == self ? $0.f2 : $0.f1 })
+    }
+
+
+    func receiveRequest(request: ResourceRouteRequest) {
+
+        if request.goal == self {
+            print("Reached final")
+
+        } else if let nextFlag = request.nextFlag(after: self), let road = road(to: nextFlag) {
+            resourceRequests.append(request)
+            if road.worker.status == .waiting {
+
+            }
+        }
+    }
+
+    func road(to flag: Flag) -> Road? {
+        return roads.first(where: {
+            ($0.f1 == self && $0.f2 == flag) || ($0.f2 == self && $0.f1 == flag)
+        })
+    }
+
+    func resourceRequest(for flag: Flag) -> ResourceRouteRequest? {
+        return resourceRequests.filter({$0.currentPath.contains(flag) }).sorted(by: Flag.settings.sorter).first
     }
 
 

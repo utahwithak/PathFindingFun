@@ -40,7 +40,7 @@ class PathFinder {
 
 
 
-    func findPath(from: Flag, to goalFlag: Flag) -> [Flag] {
+    static func findPath(from: Flag, to goalFlag: Flag) -> [Flag] {
 
         var cameFrom = [Flag: Flag]()
         var costSoFar = [from: CGFloat(0)]

@@ -67,7 +67,7 @@ class GameScene: SKScene {
 
         }
         if let first = firstFlag, let last = lastFlag {
-            let path = pathFinder.findPath(from: first, to: last)
+            let path = PathFinder.findPath(from: first, to: last)
             drawPath(path)
         }
     }
@@ -130,7 +130,7 @@ extension GameScene {
         }
         let nodes = scene.nodes(at: event.location(in: scene)).filter({ $0.name?.hasPrefix("p") ?? false})
         if let hitNode = nodes.first as? SKShapeNode, let flag = pathFinder.flag(for: hitNode), let start = currentlySelectedFlag {
-            let path = pathFinder.findPath(from: start, to: flag)
+            let path = PathFinder.findPath(from: start, to: flag)
             print("Found path:\(path)")
             drawPath(path)
         }
