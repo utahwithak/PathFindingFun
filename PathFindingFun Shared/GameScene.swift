@@ -39,37 +39,50 @@ class GameScene: SKScene {
         pathNode.zPosition = 5
         scene?.addChild(pathNode)
         var prevRowNodes: [Flag]?
-        var firstFlag: Flag?
-        var lastFlag: Flag?
-        for x in 0..<1000 {
+
+        var allFlags = [Flag]()
+        for x in 0..<10 {
             var prevFlag: Flag?
             var rowNodes = [Flag]()
 
-            for y in 0..<1000 {
-                let flag = pathFinder.addFlag(at:  CGPoint(x: x * 30, y: y * 30))
-                if firstFlag == nil {
-                    firstFlag = flag
-                }
-                addChild(flag.node)
-                if let prev = prevFlag, let road = pathFinder.addRoad(from: prev, to: flag).node {
-                    addChild(road)
+            for y in 0..<10 {
+                let flag = pathFinder.addFlag(at:  CGPoint(x: x * 40, y: y * 40))
 
+                allFlags.append(flag)
+
+                addChild(flag.node)
+                if let prev = prevFlag {
+                    let road = pathFinder.addRoad(from: prev, to: flag)
+                    if let roadNode = road.node {
+                        addChild(roadNode)
+                    }
+                    addChild(road.worker.node)
+                    road.worker.node.position = road.midPoint
                 }
-                if let prevs = prevRowNodes, let road = pathFinder.addRoad(from: prevs[y], to: flag).node {
-                    addChild(road)
+                if let prevs = prevRowNodes {
+                    let road = pathFinder.addRoad(from: prevs[y], to: flag)
+                    if let roadNode = road.node {
+                        addChild(roadNode)
+                    }
+                    addChild(road.worker.node)
+                    road.worker.node.position = road.midPoint
                 }
                 rowNodes.append(flag)
                 prevFlag = flag
             }
             prevFlag = nil
             prevRowNodes = rowNodes
-            lastFlag = rowNodes.last
 
         }
-        if let first = firstFlag, let last = lastFlag {
-            let path = PathFinder.findPath(from: first, to: last)
-            drawPath(path)
-        }
+
+        let randomStart = allFlags.shuffled()[0]
+        let randomStop = allFlags.shuffled()[0]
+        let path = PathFinder.findPath(from: randomStart, to: randomStop)
+        drawPath(path)
+        let resourceRequest = ResourceRouteRequest(resource: .wood, path: path)
+        randomStart.receiveRequest(request: resourceRequest)
+
+
     }
     
     #if os(watchOS)

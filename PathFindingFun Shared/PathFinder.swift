@@ -76,7 +76,7 @@ class PathFinder {
             path.append(from)
         }
 
-        return path
+        return path.reversed()
 
     }
 

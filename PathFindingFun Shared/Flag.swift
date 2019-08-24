@@ -39,14 +39,14 @@ class Flag: Hashable {
 
 
     func receiveRequest(request: ResourceRouteRequest) {
-
+        print("Received request")
         if request.goal == self {
             print("Reached final")
 
         } else if let nextFlag = request.nextFlag(after: self), let road = road(to: nextFlag) {
             resourceRequests.append(request)
             if road.worker.status == .waiting {
-
+                road.requestWorker(to: self)
             }
         }
     }
@@ -57,10 +57,15 @@ class Flag: Hashable {
         })
     }
 
-    func resourceRequest(for flag: Flag) -> ResourceRouteRequest? {
-        return resourceRequests.filter({$0.currentPath.contains(flag) }).sorted(by: Flag.settings.sorter).first
-    }
+    func getNextRequest(for flag: Flag) -> ResourceRouteRequest? {
+         let request = resourceRequests.filter({$0.nextFlag(after: self) == flag }).sorted(by: Flag.settings.sorter).first
 
+        if let request = request, let firstIndex = resourceRequests.firstIndex(where: { $0.resource == request.resource && $0.goal == request.goal }) {
+            resourceRequests.remove(at: firstIndex)
+        }
+
+        return request
+    }
 
     lazy var node: SKShapeNode = {
         let newNode = SKShapeNode(circleOfRadius: 10)
