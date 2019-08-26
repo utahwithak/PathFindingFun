@@ -19,9 +19,12 @@ class GameScene: SKScene {
 
     let world = World(width: 16, height: 16)
 
+
     fileprivate var currentlySelectedFlag: Flag?
 
     fileprivate var currentConnection: SKShapeNode?
+
+
     
     class func newGameScene() -> GameScene {
         // Load 'GameScene.sks' as an SKScene.
@@ -37,7 +40,7 @@ class GameScene: SKScene {
     
     func setUpScene() {
         pathNode.zPosition = 5
-        scene?.addChild(pathNode)
+        worldNode.addChild(pathNode)
         scene?.addChild(worldNode)
 
         for x in 0..<world.width {
@@ -203,6 +206,24 @@ extension GameScene {
                     currentlySelectedFlag = createFlag(at: currentSelection)
                 }
 
+            } else {
+                let finder = FreeWorldPathFinder(world: world)
+                if let pathResult = finder.findPath(from: currentSelection, to: selection, in: world, validator: NoWrappingPathCondition(world: world)) {
+                    pathNode.removeAllChildren()
+                    print("Found Path!: \(pathResult.route)")
+
+                    let path = CGMutablePath()
+                    path.move(to: world.position(of: currentSelection))
+                    var currentPosition = currentSelection
+                    for dir in pathResult.route {
+                        currentPosition = world.neighbor(of: currentPosition, direction: dir)
+                        path.addLine(to: world.position(of: currentPosition))
+                    }
+                    let node = SKShapeNode()
+                    node.path = path
+                    pathNode.addChild(node)
+
+                }
             }
         } else {
             selectedPoint = selection

@@ -15,4 +15,7 @@ enum Direction: UInt8 {
    case east
    case southeast
    case southwest
+
+    static let allDirections: [Direction] = [.west, .northwest, .northeast, .east, .southeast, .southwest]
+
 }
