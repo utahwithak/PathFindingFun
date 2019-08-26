@@ -7,6 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8F59F27923141EBD00325E23 /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F59F27823141EBD00325E23 /* World.swift */; };
+		8F59F27B23141EEF00325E23 /* MapNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F59F27A23141EEF00325E23 /* MapNode.swift */; };
+		8F59F27D231422CA00325E23 /* RoadTerminal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F59F27C231422CA00325E23 /* RoadTerminal.swift */; };
+		8F59F27F2314273900325E23 /* MapObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F59F27E2314273900325E23 /* MapObject.swift */; };
+		8F59F28423142C0500325E23 /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F59F27823141EBD00325E23 /* World.swift */; };
+		8F59F28523142C0500325E23 /* Flag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD5EC0023101F7F006354CC /* Flag.swift */; };
+		8F59F28623142C0500325E23 /* MapNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F59F27A23141EEF00325E23 /* MapNode.swift */; };
+		8F59F28723142C0500325E23 /* MapObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F59F27E2314273900325E23 /* MapObject.swift */; };
+		8F59F28823142C0500325E23 /* Road.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD5EC0323101F8F006354CC /* Road.swift */; };
+		8F59F28923142C0500325E23 /* RoadTerminal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F59F27C231422CA00325E23 /* RoadTerminal.swift */; };
+		8F59F28A23142C0500325E23 /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD5EC0623105E25006354CC /* Resource.swift */; };
+		8F59F28B23142C0500325E23 /* ResourceRouteRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD5EC0C231066D1006354CC /* ResourceRouteRequest.swift */; };
+		8F59F28C23142C0500325E23 /* TransporationSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD5EC092310626E006354CC /* TransporationSettings.swift */; };
+		8F59F28D23142C0500325E23 /* Worker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD5EC0F2310887E006354CC /* Worker.swift */; };
+		8F59F28E23142C0500325E23 /* PathFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD5EBFD23101992006354CC /* PathFinder.swift */; };
+		8F59F29023142F8800325E23 /* Direction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F59F28F23142F8800325E23 /* Direction.swift */; };
+		8F59F2912314316200325E23 /* Direction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F59F28F23142F8800325E23 /* Direction.swift */; };
+		8F59F2932314370D00325E23 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F59F2922314370D00325E23 /* Point.swift */; };
+		8F59F2942314377700325E23 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F59F2922314370D00325E23 /* Point.swift */; };
 		8FD5EBD5231016C9006354CC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD5EBD4231016C9006354CC /* AppDelegate.swift */; };
 		8FD5EBD7231016C9006354CC /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD5EBD6231016C9006354CC /* GameViewController.swift */; };
 		8FD5EBDA231016C9006354CC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8FD5EBD8231016C9006354CC /* Main.storyboard */; };
@@ -23,22 +42,21 @@
 		8FD5EBF3231016C9006354CC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8FD5EBCC231016C9006354CC /* Assets.xcassets */; };
 		8FD5EBF4231016C9006354CC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8FD5EBCC231016C9006354CC /* Assets.xcassets */; };
 		8FD5EBFE23101992006354CC /* PathFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD5EBFD23101992006354CC /* PathFinder.swift */; };
-		8FD5EBFF23101992006354CC /* PathFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD5EBFD23101992006354CC /* PathFinder.swift */; };
 		8FD5EC0123101F7F006354CC /* Flag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD5EC0023101F7F006354CC /* Flag.swift */; };
-		8FD5EC0223101F7F006354CC /* Flag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD5EC0023101F7F006354CC /* Flag.swift */; };
 		8FD5EC0423101F8F006354CC /* Road.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD5EC0323101F8F006354CC /* Road.swift */; };
-		8FD5EC0523101F8F006354CC /* Road.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD5EC0323101F8F006354CC /* Road.swift */; };
 		8FD5EC0723105E25006354CC /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD5EC0623105E25006354CC /* Resource.swift */; };
-		8FD5EC0823105E25006354CC /* Resource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD5EC0623105E25006354CC /* Resource.swift */; };
 		8FD5EC0A2310626E006354CC /* TransporationSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD5EC092310626E006354CC /* TransporationSettings.swift */; };
-		8FD5EC0B2310626E006354CC /* TransporationSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD5EC092310626E006354CC /* TransporationSettings.swift */; };
 		8FD5EC0D231066D1006354CC /* ResourceRouteRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD5EC0C231066D1006354CC /* ResourceRouteRequest.swift */; };
-		8FD5EC0E231066D1006354CC /* ResourceRouteRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD5EC0C231066D1006354CC /* ResourceRouteRequest.swift */; };
 		8FD5EC102310887E006354CC /* Worker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD5EC0F2310887E006354CC /* Worker.swift */; };
-		8FD5EC112310889A006354CC /* Worker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD5EC0F2310887E006354CC /* Worker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8F59F27823141EBD00325E23 /* World.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = World.swift; sourceTree = "<group>"; };
+		8F59F27A23141EEF00325E23 /* MapNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapNode.swift; sourceTree = "<group>"; };
+		8F59F27C231422CA00325E23 /* RoadTerminal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoadTerminal.swift; sourceTree = "<group>"; };
+		8F59F27E2314273900325E23 /* MapObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapObject.swift; sourceTree = "<group>"; };
+		8F59F28F23142F8800325E23 /* Direction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Direction.swift; sourceTree = "<group>"; };
+		8F59F2922314370D00325E23 /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		8FD5EBC9231016C7006354CC /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		8FD5EBCA231016C7006354CC /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		8FD5EBCB231016C7006354CC /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -97,11 +115,17 @@
 				8FD5EBC9231016C7006354CC /* Actions.sks */,
 				8FD5EBCA231016C7006354CC /* GameScene.sks */,
 				8FD5EBCB231016C7006354CC /* GameScene.swift */,
+				8F59F27823141EBD00325E23 /* World.swift */,
+				8F59F2922314370D00325E23 /* Point.swift */,
 				8FD5EC0023101F7F006354CC /* Flag.swift */,
+				8F59F27A23141EEF00325E23 /* MapNode.swift */,
+				8F59F27E2314273900325E23 /* MapObject.swift */,
+				8FD5EC0323101F8F006354CC /* Road.swift */,
+				8F59F28F23142F8800325E23 /* Direction.swift */,
+				8F59F27C231422CA00325E23 /* RoadTerminal.swift */,
 				8FD5EC0623105E25006354CC /* Resource.swift */,
 				8FD5EC0C231066D1006354CC /* ResourceRouteRequest.swift */,
 				8FD5EC092310626E006354CC /* TransporationSettings.swift */,
-				8FD5EC0323101F8F006354CC /* Road.swift */,
 				8FD5EC0F2310887E006354CC /* Worker.swift */,
 				8FD5EBFD23101992006354CC /* PathFinder.swift */,
 				8FD5EBCC231016C9006354CC /* Assets.xcassets */,
@@ -246,13 +270,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F59F2932314370D00325E23 /* Point.swift in Sources */,
 				8FD5EBFE23101992006354CC /* PathFinder.swift in Sources */,
+				8F59F27D231422CA00325E23 /* RoadTerminal.swift in Sources */,
 				8FD5EC0D231066D1006354CC /* ResourceRouteRequest.swift in Sources */,
+				8F59F27F2314273900325E23 /* MapObject.swift in Sources */,
 				8FD5EBF1231016C9006354CC /* GameScene.swift in Sources */,
+				8F59F27B23141EEF00325E23 /* MapNode.swift in Sources */,
 				8FD5EC0123101F7F006354CC /* Flag.swift in Sources */,
 				8FD5EC0A2310626E006354CC /* TransporationSettings.swift in Sources */,
+				8F59F29023142F8800325E23 /* Direction.swift in Sources */,
 				8FD5EC102310887E006354CC /* Worker.swift in Sources */,
 				8FD5EC0423101F8F006354CC /* Road.swift in Sources */,
+				8F59F27923141EBD00325E23 /* World.swift in Sources */,
 				8FD5EBD7231016C9006354CC /* GameViewController.swift in Sources */,
 				8FD5EBD5231016C9006354CC /* AppDelegate.swift in Sources */,
 				8FD5EC0723105E25006354CC /* Resource.swift in Sources */,
@@ -263,16 +293,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8FD5EBFF23101992006354CC /* PathFinder.swift in Sources */,
-				8FD5EC0E231066D1006354CC /* ResourceRouteRequest.swift in Sources */,
+				8F59F2942314377700325E23 /* Point.swift in Sources */,
+				8F59F28E23142C0500325E23 /* PathFinder.swift in Sources */,
+				8F59F28623142C0500325E23 /* MapNode.swift in Sources */,
+				8F59F28D23142C0500325E23 /* Worker.swift in Sources */,
 				8FD5EBF2231016C9006354CC /* GameScene.swift in Sources */,
-				8FD5EC0223101F7F006354CC /* Flag.swift in Sources */,
-				8FD5EC0B2310626E006354CC /* TransporationSettings.swift in Sources */,
-				8FD5EC112310889A006354CC /* Worker.swift in Sources */,
-				8FD5EC0523101F8F006354CC /* Road.swift in Sources */,
 				8FD5EBE8231016C9006354CC /* GameViewController.swift in Sources */,
+				8F59F28C23142C0500325E23 /* TransporationSettings.swift in Sources */,
+				8F59F28A23142C0500325E23 /* Resource.swift in Sources */,
+				8F59F28923142C0500325E23 /* RoadTerminal.swift in Sources */,
+				8F59F2912314316200325E23 /* Direction.swift in Sources */,
+				8F59F28823142C0500325E23 /* Road.swift in Sources */,
+				8F59F28723142C0500325E23 /* MapObject.swift in Sources */,
+				8F59F28523142C0500325E23 /* Flag.swift in Sources */,
+				8F59F28423142C0500325E23 /* World.swift in Sources */,
+				8F59F28B23142C0500325E23 /* ResourceRouteRequest.swift in Sources */,
 				8FD5EBE6231016C9006354CC /* AppDelegate.swift in Sources */,
-				8FD5EC0823105E25006354CC /* Resource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -100,6 +100,12 @@ extension CGPoint {
         lhs.y /= rhs
     }
 
+    static func -=(lhs: inout CGPoint, rhs: CGPoint) {
+        lhs.x -= rhs.x
+        lhs.y -= rhs.y
+    }
+
+
     static func midPoint(lhs: CGPoint, rhs: CGPoint) -> CGPoint {
         return lhs + ((rhs - lhs) / 2)
     }

@@ -9,7 +9,7 @@
 import Foundation
 import SpriteKit
 
-class Flag: Hashable {
+class Flag: MapObject, Hashable {
 
     static let settings = TransportationSettings()
     static var maxResourcesPerFlag = 4
@@ -34,7 +34,7 @@ class Flag: Hashable {
     }
 
     var connectedFlags: [Flag] {
-        return roads.compactMap({ $0.f1 == self ? $0.f2 : $0.f1 })
+        return []//roads.compactMap({ $0.f1 == self ? $0.f2 : $0.f1 })
     }
 
 
@@ -44,17 +44,18 @@ class Flag: Hashable {
             print("Reached final")
 
         } else if let nextFlag = request.nextFlag(after: self), let road = road(to: nextFlag) {
-            resourceRequests.append(request)
-            if road.worker.status == .waiting {
-                road.requestWorker(to: self)
-            }
+//            resourceRequests.append(request)
+//            if road.worker.status == .waiting {
+//                road.requestWorker(to: self)
+//            }
         }
     }
 
     func road(to flag: Flag) -> Road? {
-        return roads.first(where: {
-            ($0.f1 == self && $0.f2 == flag) || ($0.f2 == self && $0.f1 == flag)
-        })
+        return nil
+        //roads.first(where: {
+//            ($0.f1 == self && $0.f2 == flag) || ($0.f2 == self && $0.f1 == flag)
+//        })
     }
 
     func getNextRequest(for flag: Flag) -> ResourceRouteRequest? {
