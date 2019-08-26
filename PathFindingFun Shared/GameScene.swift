@@ -74,13 +74,13 @@ class GameScene: SKScene {
             prevRowNodes = rowNodes
 
         }
-
-        let randomStart = allFlags.shuffled()[0]
-        let randomStop = allFlags.shuffled()[0]
-        let path = PathFinder.findPath(from: randomStart, to: randomStop)
-        drawPath(path)
-        let resourceRequest = ResourceRouteRequest(resource: .wood, path: path)
-        randomStart.receiveRequest(request: resourceRequest)
+        for item in 0..<15 {
+            let randomStart = allFlags.shuffled()[0]
+            let randomStop = allFlags.shuffled()[0]
+            let path = PathFinder.findPath(from: randomStart, to: randomStop)
+            let resourceRequest = ResourceRouteRequest(resource: .wood, path: path)
+            randomStart.receiveRequest(request: resourceRequest)
+        }
 
 
     }

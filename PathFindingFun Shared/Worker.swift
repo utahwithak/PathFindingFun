@@ -44,11 +44,12 @@ class Worker {
         node.run(SKAction.move(to: to.position, duration: self.durationTo(location: to.position))) {
             // give resource
             to.receiveRequest(request: request)
-
+            self.currentResourceRequest = nil
              if let request = to.getNextRequest(for: from) {
                  self.deliver(request: request, to: from, from: to)
              } else {
-
+                let midPoint = CGPoint.midPoint(lhs: to.position, rhs: from.position)
+                self.returnToWaiting(at: midPoint)
 
             }
         }
@@ -82,4 +83,24 @@ extension CGPoint {
         return (dx * dx) + (dy * dy)
     }
 
+    static func +(lhs: CGPoint, rhs: CGPoint) -> CGPoint {
+        return CGPoint(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
+    }
+
+    static func -(lhs: CGPoint, rhs: CGPoint) -> CGPoint {
+        return CGPoint(x: lhs.x - rhs.x, y: lhs.y - rhs.y)
+    }
+
+    static func /(lhs: CGPoint, rhs: CGFloat) -> CGPoint {
+        return CGPoint(x: lhs.x / rhs, y: lhs.y / rhs)
+    }
+
+    static func /=(lhs: inout CGPoint, rhs: CGFloat) {
+        lhs.x /= rhs
+        lhs.y /= rhs
+    }
+
+    static func midPoint(lhs: CGPoint, rhs: CGPoint) -> CGPoint {
+        return lhs + ((rhs - lhs) / 2)
+    }
 }
