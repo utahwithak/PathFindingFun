@@ -23,9 +23,9 @@ struct ResourceRouteRequest {
     var currentPath: [Flag]
 
     func nextFlag(after: Flag) -> Flag? {
-        if let currentIndex = currentPath.firstIndex(of: after), currentIndex < currentPath.count {
-            return currentPath[currentIndex + 1]
-        }
+//        if let currentIndex = currentPath.firstIndex(of: after), currentIndex < currentPath.count {
+//            return currentPath[currentIndex + 1]
+//        }
         return nil
     }
 }

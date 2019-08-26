@@ -46,6 +46,10 @@ class Road: MapObject {
 //        return pathNode
     }()
 
+    func node(in world: World) -> SKNode? {
+        return nil
+    }
+
 //    var midPoint: CGPoint {
 //        guard let f1 = f1, let f2 = f2 else {
 //            return .zero

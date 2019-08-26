@@ -31,28 +31,28 @@ class Worker {
     }()
 
     func pickup(from: Flag, to: Flag) {
-        node.run(SKAction.move(to: from.position, duration: self.durationTo(location: from.position))) {
-            //get resource
-            if let request = from.getNextRequest(for: to) {
-                self.deliver(request: request, to: to, from: from)
-            }
-        }
+//        node.run(SKAction.move(to: from.position, duration: self.durationTo(location: from.position))) {
+//            //get resource
+//            if let request = from.getNextRequest(for: to) {
+//                self.deliver(request: request, to: to, from: from)
+//            }
+//        }
 
     }
 
     func deliver( request: ResourceRouteRequest, to: Flag, from: Flag) {
-        node.run(SKAction.move(to: to.position, duration: self.durationTo(location: to.position))) {
-            // give resource
-            to.receiveRequest(request: request)
-            self.currentResourceRequest = nil
-             if let request = to.getNextRequest(for: from) {
-                 self.deliver(request: request, to: from, from: to)
-             } else {
-                let midPoint = CGPoint.midPoint(lhs: to.position, rhs: from.position)
-                self.returnToWaiting(at: midPoint)
-
-            }
-        }
+//        node.run(SKAction.move(to: to.position, duration: self.durationTo(location: to.position))) {
+//            // give resource
+//            to.receiveRequest(request: request)
+//            self.currentResourceRequest = nil
+//             if let request = to.getNextRequest(for: from) {
+//                 self.deliver(request: request, to: from, from: to)
+//             } else {
+//                let midPoint = CGPoint.midPoint(lhs: to.position, rhs: from.position)
+//                self.returnToWaiting(at: midPoint)
+//
+//            }
+//        }
     }
 
     func returnToWaiting(at location: CGPoint) {

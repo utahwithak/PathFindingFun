@@ -82,14 +82,14 @@ class PathFinder {
 
 }
 
-struct PathNode: Comparable {
-    static func < (lhs: PathNode, rhs: PathNode) -> Bool {
-        return lhs.cost < rhs.cost
-    }
-
-    let flag: Flag
-    let cost: CGFloat
-}
+//struct PathNode: Comparable {
+//    static func < (lhs: PathNode, rhs: PathNode) -> Bool {
+//        return lhs.cost < rhs.cost
+//    }
+//
+//    let flag: Flag
+//    let cost: CGFloat
+//}
 
 extension Array where Element : Comparable {
     /// Finds such index N that predicate is true for all elements up to

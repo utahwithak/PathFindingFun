@@ -15,14 +15,11 @@ class GameScene: SKScene {
     let pathNode = SKNode()
     let worldNode = SKNode()
 
+    var selectedPoint: MapPoint?
+
     let world = World(width: 16, height: 16)
 
-    fileprivate var currentlySelectedFlag: Flag? {
-        didSet {
-            oldValue?.node.fillColor = .white
-            currentlySelectedFlag?.node.fillColor = .blue
-        }
-    }
+    fileprivate var currentlySelectedFlag: Flag?
 
     fileprivate var currentConnection: SKShapeNode?
     
@@ -103,6 +100,16 @@ class GameScene: SKScene {
 
 
     }
+
+    func createFlag(at pt: MapPoint) -> Flag {
+        let flag = Flag(at: pt)
+        if let node = flag.node(in: world) {
+            worldNode.addChild(node)
+        }
+        world.setObject(flag, at: pt)
+        return flag
+
+    }
     
     #if os(watchOS)
     override func sceneDidLoad() {
@@ -155,45 +162,8 @@ extension GameScene {
     }
     override func rightMouseUp(with event: NSEvent) {
 
-//        pathNode.removeAllChildren()
-//
-//        guard let scene = scene else {
-//            return
-//        }
-//        let nodes = scene.nodes(at: event.location(in: scene)).filter({ $0.name?.hasPrefix("p") ?? false})
-//        if let hitNode = nodes.first as? SKShapeNode, let flag = pathFinder.flag(for: hitNode), let start = currentlySelectedFlag {
-//            let path = PathFinder.findPath(from: start, to: flag)
-//            print("Found path:\(path)")
-//            drawPath(path)
-//        }
-//
-//        currentlySelectedFlag = nil
     }
 
-//    func drawPath(_ path: [Flag]) {
-//        let positions = path.map({ $0.position })
-//
-//        let pathToDraw = CGMutablePath()
-//        for (index, position) in positions.enumerated() {
-//            let hit = SKShapeNode(circleOfRadius: 9)
-//            hit.position = position
-//            hit.fillColor = .red
-//            pathNode.addChild(hit)
-//            if index == 0 {
-//                pathToDraw.move(to: position)
-//            } else {
-//                pathToDraw.addLine(to: position)
-//            }
-//
-//        }
-//        let connectionNode = SKShapeNode()
-//
-//        connectionNode.path = pathToDraw
-//        connectionNode.strokeColor = .red
-//        connectionNode.lineWidth = 3
-//        pathNode.addChild(connectionNode)
-//
-//    }
     override func mouseDown(with event: NSEvent) {
 
         var nearestX = CGFloat.greatestFiniteMagnitude
@@ -222,64 +192,24 @@ extension GameScene {
             }
         }
 
-
         print("Nearest location:\(selectionX),\(selectionY)")
-//        guard let scene = scene else {
-//            return
-//        }
-//        let nodes = scene.nodes(at: event.location(in: scene)).filter({ $0.name?.hasPrefix("p") ?? false})
-//        if let hitNode = nodes.first as? SKShapeNode, let flag = pathFinder.flag(for: hitNode) {
-//            currentlySelectedFlag = flag
-//        } else {
-//            let newFlag = pathFinder.addFlag(at: event.location(in: scene))
-//            addChild(newFlag.node)
-//            currentlySelectedFlag = newFlag
-//        }
+
+        let selection = MapPoint(selectionX, selectionY)
+        if let currentSelection = selectedPoint {
+            if currentSelection == selection {
+                if let flag = world.object(at: currentSelection) {
+                    currentlySelectedFlag = flag as? Flag
+                } else {
+                    currentlySelectedFlag = createFlag(at: currentSelection)
+                }
+
+            }
+        } else {
+            selectedPoint = selection
+        }
+
     }
-//
-//    override func mouseDragged(with event: NSEvent) {
-//        guard let scene = scene, let currentFlag = currentlySelectedFlag else {
-//            return
-//        }
-//
-//        if let currentConnection = currentConnection {
-//            let pathToDraw = CGMutablePath()
-//            pathToDraw.move(to: currentFlag.position)
-//            pathToDraw.addLine(to: event.location(in: scene))
-//            currentConnection.path = pathToDraw
-//
-//        } else {
-//            let pathNode = SKShapeNode()
-//            pathNode.name = "connection"
-//            let pathToDraw = CGMutablePath()
-//            pathToDraw.move(to: currentFlag.position)
-//            pathToDraw.addLine(to: event.location(in: scene))
-//            pathNode.path = pathToDraw
-//            currentConnection = pathNode
-//            addChild(pathNode)
-//        }
-//
-//    }
-//
-//    override func mouseUp(with event: NSEvent) {
-//        guard let scene = scene, currentConnection != nil else {
-//                  return
-//        }
-//
-//        let nodes = scene.nodes(at: event.location(in: scene)).filter({ $0.name?.hasPrefix("p") ?? false})
-//
-//        if let hitNode = nodes.first as? SKShapeNode, let toFlag = pathFinder.flag(for: hitNode), let currentFlag = currentlySelectedFlag {
-//            let road = pathFinder.addRoad(from: currentFlag, to: toFlag)
-//            if let roadNode = road.node, !scene.children.contains(roadNode) {
-//                addChild(roadNode)
-//            }
-//            currentlySelectedFlag = nil
-//        }
-//
-//
-//        currentConnection?.removeFromParent()
-//        currentConnection = nil
-//    }
+
 
 
 }

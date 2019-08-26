@@ -8,7 +8,10 @@
 
 import Foundation
 
-protocol RoadTerminal: class { 
+protocol RoadTerminal: class {
+
+    var position: MapPoint { get }
+
     var routes: [Road] { get }
 
 }

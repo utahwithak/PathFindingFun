@@ -7,7 +7,9 @@
 //
 
 import Foundation
+import SpriteKit
 
 protocol MapObject {
-    
+
+    func node(in world: World) -> SKNode?
 }

@@ -9,7 +9,7 @@
 import Foundation
 
 
-struct Point<T: Numeric> {
+struct Point<T: Numeric>: Equatable {
     var x: T
     var y: T
 

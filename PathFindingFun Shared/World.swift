@@ -35,4 +35,20 @@ class World {
         return result
     }
 
+    func index(of pt: MapPoint) -> Int {
+        return pt.y * width + pt.x
+    }
+
+    func node(at pt: MapPoint) -> MapNode {
+        return nodes[index(of: pt)]
+    }
+
+    func object(at pt: MapPoint) -> MapObject? {
+        return node(at: pt).mapObject
+    }
+
+    func setObject(_ obj: MapObject, at pt: MapPoint) {
+        nodes[index(of: pt)].mapObject = obj
+    }
+    
 }
