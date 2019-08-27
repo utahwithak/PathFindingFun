@@ -131,7 +131,6 @@ class FreeWorldPathFinder {
                     continue
                 }
 
-
                 if neighbor.lastVisited == currentVisit {
 
                     if best.curDistance + 1 < neighbor.curDistance {
@@ -178,12 +177,12 @@ class FreeWorldPathFinder {
 
 struct AllValidPathConditioner: PathConditioner {
     func validNode(at pt: MapPoint) -> Bool {
-          return true
-      }
+        return true
+    }
 
-      func validEdge(from pt: MapPoint, in direction: Direction) -> Bool {
-          return true
-      }
+    func validEdge(from pt: MapPoint, in direction: Direction) -> Bool {
+        return true
+    }
 }
 
 struct PathConditionHuman: PathConditioner {
@@ -195,18 +194,19 @@ struct PathConditionHuman: PathConditioner {
     }
 
     func validNode(at pt: MapPoint) -> Bool {
-        //            let bm = world.mapObject(at: pt).blockingManner
-        //            if bm != .none && bm != .tree && bm != .flag {
-        //                return false
-        //            }
-        //
-        //            // If no terrain around this is usable, we can't go here
-        //            for dir in Direction.allDirections() {
-        //                if world.terrainAround(point: pt, dir: dir).isUsable {
-        //                    return true
-        //                }
-        //            }
-        return true
+        if let bm = world.object(at: pt)?.blockingType, bm != .none && bm != .tree && bm != .flag {
+            return false
+        }
+
+//        // If no terrain around this is usable, we can't go here
+//        for dir in Direction.allDirections {
+//            if world.terrainAround(point: pt, dir: dir).isUsable {
+//                return true
+//            }
+//        }
+        return false
+
+
     }
 
     func validEdge(from pt: MapPoint, in direction: Direction) -> Bool {
@@ -217,10 +217,9 @@ struct PathConditionHuman: PathConditioner {
 
 struct PathConditionRoad: PathConditioner {
     let world: World
-    let boatRoad: Bool ;
 
     func validNode(at pt: MapPoint) -> Bool {
-        return true//world.isPlayerTerritory(at: pt) && worldViewer.isRoadAvailable(at: pt, onWater: boatRoad)
+        return world.isPlayersTerritory(at: pt) && world.canBuildRoad(at: pt)
     }
 
     func validEdge(from pt: MapPoint, in direction: Direction) -> Bool {
@@ -232,7 +231,7 @@ struct NoWrappingPathCondition: PathConditioner {
     let world: World
 
     func validNode(at pt: MapPoint) -> Bool {
-        return true//world.isPlayerTerritory(at: pt) && worldViewer.isRoadAvailable(at: pt, onWater: boatRoad)
+        return true
     }
 
     func validEdge(from pt: MapPoint, in direction: Direction) -> Bool {
@@ -254,3 +253,15 @@ struct NoWrappingPathCondition: PathConditioner {
     }
 }
 
+struct PathConditionerCombiner: PathConditioner {
+    let v1: PathConditioner
+    let v2: PathConditioner
+
+    func validNode(at pt: MapPoint) -> Bool {
+        return v1.validNode(at: pt) && v2.validNode(at: pt)
+    }
+
+    func validEdge(from pt: MapPoint, in direction: Direction) -> Bool {
+        return v1.validEdge(from: pt, in: direction) && v2.validEdge(from: pt, in: direction)
+    }
+}

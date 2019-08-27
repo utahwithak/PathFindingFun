@@ -231,8 +231,6 @@ extension GameScene {
 
     }
 
-
-
 }
 #endif
 

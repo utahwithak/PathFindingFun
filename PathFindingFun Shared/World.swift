@@ -51,6 +51,20 @@ class World {
         nodes[index(of: pt)].mapObject = obj
     }
 
+    func setPointRoad(at pt: MapPoint, direction: Direction, type: Road.RoadType) {
+        if direction.isEastOrSouth {
+            setNodeRoad(at: pt, in: direction.reversed, to: type)
+        } else {
+            setNodeRoad(at: neighbor(of: pt, direction: direction), in: direction, to: type)
+        }
+
+    }
+
+    func setNodeRoad(at pt: MapPoint, in direction: Direction, to type: Road.RoadType) {
+        assert(direction.isWestOrNorth)
+        nodes[index(of: pt)].roads[Int(direction.rawValue)] = type
+    }
+
     final func distance( x1: Int, y1: Int, x2: Int, y2: Int) -> Int {
         var dx = ((x1 - x2) * 2) + (y1 & 1) - (y2 & 1)
         var dy = ((y1 > y2) ? (y1 - y2) : (y2 - y1)) * 2
@@ -120,5 +134,68 @@ class World {
         }
 
         return res
+    }
+
+    func canBuildRoad(at pt: MapPoint, boatRoad: Bool = false) -> Bool {
+        if let object = object(at: pt), object.blockingType != .none {
+            return false
+        }
+
+//        // dont build on the border
+//        if(GetNode(pt).boundary_stones[0])
+//            return false;
+
+        for dir in Direction.allDirections {
+
+            if let object = object(at: neighbor(of: pt, direction: dir)), object.blockingType == .nothingAround {
+                return false;
+            }
+
+            // Other roads at this point?
+            if hasRoad(at: pt, in: dir) {
+                return false
+            }
+        }
+
+//        // Terrain (unterscheiden, ob Wasser und Landweg)
+//        if(!boat_road)
+//        {
+//            bool flagPossible = false;
+//
+//            for(unsigned char i = 0; i < 6; ++i)
+//            {
+//                TerrainBQ bq = GetDescription().get(GetRightTerrain(pt, Direction::fromInt(i))).GetBQ();
+//                if(bq == TerrainBQ::DANGER)
+//                    return false;
+//                else if(bq != TerrainBQ::NOTHING)
+//                    flagPossible = true;
+//            }
+//
+//            return flagPossible;
+//        } else
+//        {
+//            // Beim Wasserweg muss um den Punkt herum Wasser sein
+//            if(!IsWaterPoint(pt))
+//                return false;
+//        }
+
+        return true;
+    }
+
+    func hasRoad(at pt: MapPoint, in direction: Direction) -> Bool {
+        if direction.isEastOrSouth {
+            return road(at: pt, in: direction.reversed) != .none
+        } else {
+            return road(at: neighbor(of: pt, direction: direction), in: direction) != .none
+
+        }
+    }
+
+    func road(at pt: MapPoint, in direction: Direction) -> Road.RoadType {
+        return node(at: pt).roads[Int(direction.rawValue)]
+    }
+
+    func isPlayersTerritory(at pt: MapPoint) -> Bool {
+        return true
     }
 }
