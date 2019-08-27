@@ -217,9 +217,10 @@ struct PathConditionHuman: PathConditioner {
 
 struct PathConditionRoad: PathConditioner {
     let world: World
+    let player: Int
 
     func validNode(at pt: MapPoint) -> Bool {
-        return world.isPlayersTerritory(at: pt) && world.canBuildRoad(at: pt)
+        return world.isPlayerTerritory(player: player, at: pt) && world.canBuildRoad(at: pt)
     }
 
     func validEdge(from pt: MapPoint, in direction: Direction) -> Bool {

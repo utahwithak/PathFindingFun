@@ -10,12 +10,18 @@ import Foundation
 import SpriteKit
 
 protocol MapObject {
+
+    var playerId: Int { get }
+
     var blockingType: BlockingType { get }
 
     func node(in world: World) -> SKNode?
 }
 
 extension MapObject {
+    var playerId: Int {
+        return -1
+    }
     var blockingType: BlockingType {
         return .none
     }

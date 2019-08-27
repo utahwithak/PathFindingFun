@@ -12,6 +12,6 @@ protocol RoadTerminal: class {
 
     var position: MapPoint { get }
 
-    var routes: [Road] { get }
+//    var routes: [Road] { get }
 
 }

@@ -24,7 +24,7 @@ class GameScene: SKScene {
 
     fileprivate var currentConnection: SKShapeNode?
 
-
+    fileprivate var pressDownPoint: MapPoint?
     
     class func newGameScene() -> GameScene {
         // Load 'GameScene.sks' as an SKScene.
@@ -57,60 +57,63 @@ class GameScene: SKScene {
         let position = world.position(of: MapPoint(world.width, world.height))
         worldNode.position -= position / 2
 
-//        var prevRowNodes: [Flag]?
+        //        var prevRowNodes: [Flag]?
 
-//        var allFlags = [Flag]()
-//        for x in 0..<10 {
-//            var prevFlag: Flag?
-//            var rowNodes = [Flag]()
-//
-//            for y in 0..<10 {
-//                let flag = pathFinder.addFlag(at:  CGPoint(x: x * 40, y: y * 40))
-//
-//                allFlags.append(flag)
-//
-//                addChild(flag.node)
-//                if let prev = prevFlag {
-//                    let road = pathFinder.addRoad(from: prev, to: flag)
-//                    if let roadNode = road.node {
-//                        addChild(roadNode)
-//                    }
-//                    addChild(road.worker.node)
-//                    road.worker.node.position = road.midPoint
-//                }
-//                if let prevs = prevRowNodes {
-//                    let road = pathFinder.addRoad(from: prevs[y], to: flag)
-//                    if let roadNode = road.node {
-//                        addChild(roadNode)
-//                    }
-//                    addChild(road.worker.node)
-//                    road.worker.node.position = road.midPoint
-//                }
-//                rowNodes.append(flag)
-//                prevFlag = flag
-//            }
-//            prevFlag = nil
-//            prevRowNodes = rowNodes
-//
-//        }
-//        for item in 0..<15 {
-//            let randomStart = allFlags.shuffled()[0]
-//            let randomStop = allFlags.shuffled()[0]
-//            let path = PathFinder.findPath(from: randomStart, to: randomStop)
-//            let resourceRequest = ResourceRouteRequest(resource: .wood, path: path)
-//            randomStart.receiveRequest(request: resourceRequest)
-//        }
+        //        var allFlags = [Flag]()
+        //        for x in 0..<10 {
+        //            var prevFlag: Flag?
+        //            var rowNodes = [Flag]()
+        //
+        //            for y in 0..<10 {
+        //                let flag = pathFinder.addFlag(at:  CGPoint(x: x * 40, y: y * 40))
+        //
+        //                allFlags.append(flag)
+        //
+        //                addChild(flag.node)
+        //                if let prev = prevFlag {
+        //                    let road = pathFinder.addRoad(from: prev, to: flag)
+        //                    if let roadNode = road.node {
+        //                        addChild(roadNode)
+        //                    }
+        //                    addChild(road.worker.node)
+        //                    road.worker.node.position = road.midPoint
+        //                }
+        //                if let prevs = prevRowNodes {
+        //                    let road = pathFinder.addRoad(from: prevs[y], to: flag)
+        //                    if let roadNode = road.node {
+        //                        addChild(roadNode)
+        //                    }
+        //                    addChild(road.worker.node)
+        //                    road.worker.node.position = road.midPoint
+        //                }
+        //                rowNodes.append(flag)
+        //                prevFlag = flag
+        //            }
+        //            prevFlag = nil
+        //            prevRowNodes = rowNodes
+        //
+        //        }
+        //        for item in 0..<15 {
+        //            let randomStart = allFlags.shuffled()[0]
+        //            let randomStop = allFlags.shuffled()[0]
+        //            let path = PathFinder.findPath(from: randomStart, to: randomStop)
+        //            let resourceRequest = ResourceRouteRequest(resource: .wood, path: path)
+        //            randomStart.receiveRequest(request: resourceRequest)
+        //        }
 
 
     }
 
-    func createFlag(at pt: MapPoint) -> Flag {
-        let flag = Flag(at: pt)
-        if let node = flag.node(in: world) {
+
+    func createFlag(at pt: MapPoint) {
+        world.placeFlag(at: pt, for: -1)
+        guard let flag = world.object(at: pt) as? Flag else {
+            print("Failed to place flag")
+            return
+        }
+        if let node = flag.node(in: world), !worldNode.children.contains(node) {
             worldNode.addChild(node)
         }
-        world.setObject(flag, at: pt)
-        return flag
 
     }
     
@@ -152,7 +155,7 @@ extension GameScene {
 
     }
     
-   
+
 }
 #endif
 
@@ -160,15 +163,7 @@ extension GameScene {
 // Mouse-based event handling
 extension GameScene {
 
-    override func rightMouseDown(with event: NSEvent) {
-
-    }
-    override func rightMouseUp(with event: NSEvent) {
-
-    }
-
-    override func mouseDown(with event: NSEvent) {
-
+    func mapPoint(in event: NSEvent) -> MapPoint {
         var nearestX = CGFloat.greatestFiniteMagnitude
         var nearestY = CGFloat.greatestFiniteMagnitude
         let location = event.location(in: worldNode)
@@ -197,24 +192,44 @@ extension GameScene {
 
         print("Nearest location:\(selectionX),\(selectionY)")
 
-        let selection = MapPoint(selectionX, selectionY)
-        if let currentSelection = selectedPoint {
-            if currentSelection == selection {
-                if let flag = world.object(at: currentSelection) {
-                    currentlySelectedFlag = flag as? Flag
-                } else {
-                    currentlySelectedFlag = createFlag(at: currentSelection)
-                }
+        return MapPoint(selectionX, selectionY)
 
-            } else {
+    }
+
+    override func rightMouseDown(with event: NSEvent) {
+
+    }
+    override func rightMouseUp(with event: NSEvent) {
+
+    }
+
+    override func mouseDown(with event: NSEvent) {
+        pressDownPoint = mapPoint(in: event)
+    }
+
+    override func mouseUp(with event: NSEvent) {
+
+        let mouseUpLocation = mapPoint(in: event)
+
+        guard let mouseDown = pressDownPoint else {
+            return
+        }
+        if mouseUpLocation == mouseDown {
+            createFlag(at: mouseUpLocation)
+            return
+        } else {
+            if let startFlag = world.object(at: mouseDown) as? Flag {
+
                 let finder = FreeWorldPathFinder(world: world)
-                if let pathResult = finder.findPath(from: currentSelection, to: selection, in: world, validator: NoWrappingPathCondition(world: world)) {
-                    pathNode.removeAllChildren()
+                if let pathResult = finder.findPath(from: startFlag.position, to: mouseUpLocation, in: world, validator: PathConditionerCombiner(v1: NoWrappingPathCondition(world: world), v2: PathConditionRoad(world: world, player: -1))) {
+//                    pathNode.removeAllChildren()
                     print("Found Path!: \(pathResult.route)")
-
+                    guard pathResult.route.count >= 2 else {
+                        return
+                    }
                     let path = CGMutablePath()
-                    path.move(to: world.position(of: currentSelection))
-                    var currentPosition = currentSelection
+                    path.move(to: world.position(of: startFlag.position))
+                    var currentPosition = mouseDown
                     for dir in pathResult.route {
                         currentPosition = world.neighbor(of: currentPosition, direction: dir)
                         path.addLine(to: world.position(of: currentPosition))
@@ -223,10 +238,10 @@ extension GameScene {
                     node.path = path
                     pathNode.addChild(node)
 
+                    world.buildRoad(at: startFlag.position, route: pathResult.route, for: -1)
+
                 }
             }
-        } else {
-            selectedPoint = selection
         }
 
     }

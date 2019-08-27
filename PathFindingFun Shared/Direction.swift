@@ -17,6 +17,7 @@ enum Direction: UInt8 {
     case southwest
 
     static let allDirections: [Direction] = [.west, .northwest, .northeast, .east, .southeast, .southwest]
+    static let westNorth: [Direction] = [.west, .northwest, .northeast]
 
     var isEastOrSouth: Bool {
         return self == .east || self == .southeast || self == .southwest
@@ -42,4 +43,6 @@ enum Direction: UInt8 {
             return .southwest
         }
     }
+
+
 }

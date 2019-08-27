@@ -11,6 +11,7 @@ import Foundation
 struct MapNode {
     var roads: [Road.RoadType] = [.none, .none, .none]
 
+    var buildQuality: BuildQuality = .flag
 
     var mapObject: MapObject?
 }

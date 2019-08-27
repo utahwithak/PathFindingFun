@@ -14,16 +14,20 @@ class Flag: MapObject {
     static let settings = TransportationSettings()
     static var maxResourcesPerFlag = 4
 
+    let position: MapPoint
+    let playerId: Int
 
-    init(at: MapPoint) {
+    public private(set) var routes = [Direction: Road]()
+
+    init(at: MapPoint, player: Int) {
         position = at
-
+        playerId = player
+        print("Need to handle splitting existing roads")
     }
-    
-    var roads = [Road]()
 
-    var position: MapPoint
-
+    var blockingType: BlockingType {
+        return .flag
+    }
 
     private lazy var node: SKNode = {
         let flagNode = SKNode()
@@ -47,5 +51,13 @@ class Flag: MapObject {
         node.position = world.position(of: position)
         return node
     }
+
+    func update(road: Road, from: Direction) {
+        routes[from] = road
+    }
+
+}
+
+extension Flag: RoadTerminal {
 
 }
