@@ -30,6 +30,8 @@
 		8F59F29723145BFF00325E23 /* FreeWorldPathFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F59F29523145BFF00325E23 /* FreeWorldPathFinder.swift */; };
 		8F59F29A2314658900325E23 /* PathConditioner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F59F2992314658900325E23 /* PathConditioner.swift */; };
 		8F59F29B2314658900325E23 /* PathConditioner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F59F2992314658900325E23 /* PathConditioner.swift */; };
+		8FBBDFEE23157AFD00565391 /* BuildingQuality.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBBDFED23157AFD00565391 /* BuildingQuality.swift */; };
+		8FBBDFEF23157AFD00565391 /* BuildingQuality.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBBDFED23157AFD00565391 /* BuildingQuality.swift */; };
 		8FD5EBD5231016C9006354CC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD5EBD4231016C9006354CC /* AppDelegate.swift */; };
 		8FD5EBD7231016C9006354CC /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD5EBD6231016C9006354CC /* GameViewController.swift */; };
 		8FD5EBDA231016C9006354CC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8FD5EBD8231016C9006354CC /* Main.storyboard */; };
@@ -52,6 +54,8 @@
 		8FD5EC0A2310626E006354CC /* TransporationSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD5EC092310626E006354CC /* TransporationSettings.swift */; };
 		8FD5EC0D231066D1006354CC /* ResourceRouteRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD5EC0C231066D1006354CC /* ResourceRouteRequest.swift */; };
 		8FD5EC102310887E006354CC /* Worker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD5EC0F2310887E006354CC /* Worker.swift */; };
+		8FECDB232315B964006AFCDF /* BuildRoadPathFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FECDB222315B964006AFCDF /* BuildRoadPathFinder.swift */; };
+		8FECDB242315B964006AFCDF /* BuildRoadPathFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FECDB222315B964006AFCDF /* BuildRoadPathFinder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -63,6 +67,7 @@
 		8F59F2922314370D00325E23 /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		8F59F29523145BFF00325E23 /* FreeWorldPathFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeWorldPathFinder.swift; sourceTree = "<group>"; };
 		8F59F2992314658900325E23 /* PathConditioner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathConditioner.swift; sourceTree = "<group>"; };
+		8FBBDFED23157AFD00565391 /* BuildingQuality.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildingQuality.swift; sourceTree = "<group>"; };
 		8FD5EBC9231016C7006354CC /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		8FD5EBCA231016C7006354CC /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		8FD5EBCB231016C7006354CC /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -85,6 +90,7 @@
 		8FD5EC092310626E006354CC /* TransporationSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransporationSettings.swift; sourceTree = "<group>"; };
 		8FD5EC0C231066D1006354CC /* ResourceRouteRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceRouteRequest.swift; sourceTree = "<group>"; };
 		8FD5EC0F2310887E006354CC /* Worker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Worker.swift; sourceTree = "<group>"; };
+		8FECDB222315B964006AFCDF /* BuildRoadPathFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildRoadPathFinder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,9 +116,19 @@
 			children = (
 				8FD5EBFD23101992006354CC /* PathFinder.swift */,
 				8F59F29523145BFF00325E23 /* FreeWorldPathFinder.swift */,
+				8FECDB222315B964006AFCDF /* BuildRoadPathFinder.swift */,
 				8F59F2992314658900325E23 /* PathConditioner.swift */,
 			);
 			path = "Path Finding";
+			sourceTree = "<group>";
+		};
+		8FBBDFEC23157AE100565391 /* Types */ = {
+			isa = PBXGroup;
+			children = (
+				8FD5EC0623105E25006354CC /* Resource.swift */,
+				8FBBDFED23157AFD00565391 /* BuildingQuality.swift */,
+			);
+			path = Types;
 			sourceTree = "<group>";
 		};
 		8FD5EBC3231016C7006354CC = {
@@ -139,7 +155,7 @@
 				8FD5EC0323101F8F006354CC /* Road.swift */,
 				8F59F28F23142F8800325E23 /* Direction.swift */,
 				8F59F27C231422CA00325E23 /* RoadTerminal.swift */,
-				8FD5EC0623105E25006354CC /* Resource.swift */,
+				8FBBDFEC23157AE100565391 /* Types */,
 				8FD5EC0C231066D1006354CC /* ResourceRouteRequest.swift */,
 				8FD5EC092310626E006354CC /* TransporationSettings.swift */,
 				8FD5EC0F2310887E006354CC /* Worker.swift */,
@@ -304,6 +320,8 @@
 				8FD5EBD5231016C9006354CC /* AppDelegate.swift in Sources */,
 				8FD5EC0723105E25006354CC /* Resource.swift in Sources */,
 				8F59F29A2314658900325E23 /* PathConditioner.swift in Sources */,
+				8FBBDFEE23157AFD00565391 /* BuildingQuality.swift in Sources */,
+				8FECDB232315B964006AFCDF /* BuildRoadPathFinder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -329,6 +347,8 @@
 				8F59F28B23142C0500325E23 /* ResourceRouteRequest.swift in Sources */,
 				8FD5EBE6231016C9006354CC /* AppDelegate.swift in Sources */,
 				8F59F29B2314658900325E23 /* PathConditioner.swift in Sources */,
+				8FBBDFEF23157AFD00565391 /* BuildingQuality.swift in Sources */,
+				8FECDB242315B964006AFCDF /* BuildRoadPathFinder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
