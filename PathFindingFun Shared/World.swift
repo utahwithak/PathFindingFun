@@ -253,6 +253,7 @@ class World {
     func buildRoad(at pt: MapPoint, route: [Direction], for player: Int) {
         guard route.count >= 2 else {
             assert(false)
+            return
         }
 
         guard let flag = object(at: pt) as? Flag else {

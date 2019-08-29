@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import SceneKit
 
 class GameScene: SKScene {
 
@@ -101,14 +102,27 @@ class GameScene: SKScene {
         //            randomStart.receiveRequest(request: resourceRequest)
         //        }
 
-//        var gen = Xoroshiro(seed: (10,100))
-//        var pts = [Vertex]()
-//        for x in 0..<100 {
-//            for y in 0..<100 {
-//                let pt = Vertex([x, y])
-//                pts.append(pt)
-//            }
-//        }
+        DispatchQueue.main/*global(qos: .userInteractive)*/.asyncAfter(deadline: .now() + .seconds(1)) {
+            var gen = Xoroshiro(seed: (10,100))
+            var pts = [Vector3]()
+            for _ in 0..<1000000 {
+                pts.append(gen.insideUnitSphere() * 10000)
+            }
+
+            let node = SK3DNode(viewportSize: CGSize(width: 300, height: 300))
+            let sceneKitScene = SCNScene()
+
+            node.scnScene = sceneKitScene
+            let scNode = SCNNode()
+            scNode.runAction(SCNAction.rotateBy(x: 0, y: 9, z: 0, duration: 10))
+            scNode.runAction(SCNAction.rotateBy(x: 0, y: 0, z: 9, duration: 10))
+            scNode.runAction(SCNAction.rotateBy(x: 9, y: 0, z: 9, duration: 10))
+            scNode.geometry = MeshUtils.geometry(from: pts)
+            sceneKitScene.rootNode.addChildNode(scNode)
+
+            self.scene?.addChild(node)
+        }
+
 
     }
 

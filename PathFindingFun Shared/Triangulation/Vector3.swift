@@ -11,15 +11,23 @@ import simd
 
 public struct Vector3 {
     public static let zero = Vector3(x: 0, y: 0, z: 0)
-
-    var x: Double
-    var y: Double
-    var z: Double
+    var pt = simd_double3()
+    var x: Double {
+        get { pt.x}
+        set {
+            pt.x = newValue
+        }
+    }
+    var y: Double {
+        get {pt.y}
+        set {pt.y = newValue }
+    }
+    var z: Double {
+        get {pt.z}
+        set {pt.z = newValue }
+    }
 
     init(){
-        x = 0
-        y = 0
-        z = 0
     }
     init(_ x: Double, _ y: Double, _ z: Double) {
         self.x = x

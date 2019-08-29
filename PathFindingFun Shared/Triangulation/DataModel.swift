@@ -34,9 +34,9 @@ import Foundation
 internal struct DeferredFace {
 
     /// The faces.
-    let face: ConvexFaceInternal
-    let pivot: ConvexFaceInternal
-    let oldFace: ConvexFaceInternal
+    let face: Int
+    let pivot: Int
+    let oldFace: Int
 
 
     /// The indices.
@@ -51,7 +51,7 @@ internal struct FaceConnector {
     let edgeIndex: Int
 
     /// The face.
-    let face: ConvexFaceInternal
+    let face: Int
 
     /// The hash code computed from indices.
     let hashCode: UInt64
@@ -61,7 +61,7 @@ internal struct FaceConnector {
     let v1: Int
 
     init(face: ConvexFaceInternal, edgeIndex: Int) {
-        self.face = face;
+        self.face = face.index;
         self.edgeIndex = edgeIndex;
 
         switch edgeIndex {
@@ -88,13 +88,13 @@ internal struct FaceConnector {
 
 /// This internal class manages the faces of the convex hull. It is a
 /// separate class from the desired user class.
-internal final class ConvexFaceInternal {
+struct ConvexFaceInternal {
     /// Gets or sets the adjacent face data.
     public var adj0 = 0
     public var adj1 = 0
     public var adj2 = 0
 
-    func set(adj: Int, to: Int) {
+    mutating func set(adj: Int, to: Int) {
         switch adj {
         case 0:
             adj0 = to
@@ -135,7 +135,7 @@ internal final class ConvexFaceInternal {
         self.index = index
     }
 
-    func reset() {
+    mutating func reset() {
         adj0 = -1
         adj1 = -1
         adj2 = -1

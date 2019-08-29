@@ -186,7 +186,22 @@ public struct Xoroshiro: RandomWordGenerator {
 
 
     public mutating func insideUnitSphere() -> Vector3 {
-        return Vector3(inUnit(),inUnit(), inUnit())
+        let u = Double(random64())
+        var x1 = inUnit() * Double(random64())
+        var x2 = inUnit() * Double(random64())
+        var x3 = inUnit() * Double(random64())
+
+        let mag = sqrt(x1*x1 + x2*x2 + x3*x3);
+        x1 /= mag; x2 /= mag; x3 /= mag;
+
+
+        let c = pow(u, 1/3)
+        return Vector3(x1 * c, x2 * c, x3 * c)
+//        var cur = Vector3(inUnit(),inUnit(), inUnit())
+//        while cur.magnitudeSquared > 1 {
+//            cur = Vector3(inUnit(),inUnit(), inUnit())
+//        }
+//        return cur
     }
 
     public mutating func onUnitSphere() -> Vector3 {

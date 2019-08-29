@@ -72,7 +72,7 @@ internal class ConvexHullAlgorithm {
     private var convexHullSize = 0
 
     /// A list of faces that that are not a part of the final convex hull and still need to be processed.
-    private var unprocessedFaces = [ConvexFaceInternal]()
+    private var unprocessedFaces = [Int]()
 
     /// A list of faces that form the convex hull.
     private var convexFaces = [Int]()
@@ -155,23 +155,22 @@ internal class ConvexHullAlgorithm {
 
     /// Return the face to the pool for later use.
     internal func depositFace(at faceIndex: Int) {
-        let face = facePool[faceIndex]
-        face.reset()
+        facePool[faceIndex].reset()
         freeFaceIndices.append(faceIndex)
     }
 
     /// Create a new face and put it in the pool.
-    private func createFace() -> ConvexFaceInternal {
+    private func createFace() -> Int {
         let index = facePool.count
         let face = ConvexFaceInternal(index: index)
         facePool.append(face)
         affectedFaceFlags.append(false)
-        return face
+        return index
     }
 
-    public func getFace() -> ConvexFaceInternal {
+    public func getFace() -> Int {
         if let freeIndex = freeFaceIndices.popLast(){
-            return facePool[freeIndex]
+            return freeIndex
         }
         return createFace()
     }
@@ -220,7 +219,7 @@ internal class ConvexHullAlgorithm {
         // outwards to make the convex hull and faces.
         while let currentFace = unprocessedFaces.first {
 
-            currentVertex = currentFace.furthestVertex
+            currentVertex = facePool[currentFace].furthestVertex
 
             updateCenter()
 
@@ -343,17 +342,17 @@ internal class ConvexHullAlgorithm {
             }
             let newFace = getFace()
             vertices.sort()
-            newFace.vert0 = vertices[0]
-            newFace.vert1 = vertices[1]
-            newFace.vert2 = vertices[2]
+            facePool[newFace].vert0 = vertices[0]
+            facePool[newFace].vert1 = vertices[1]
+            facePool[newFace].vert2 = vertices[2]
 
             _ = calculateFacePlane(face: newFace, center: center)
-            faces[i] = newFace.index
+            faces[i] = newFace
         }
         // update the adjacency (check all pairs of faces)
         for i in 0..<3 {
             for j in (i + 1)..<(3 + 1) {
-                updateAdjacency(l: facePool[faces[i]], r: facePool[faces[j]])
+                updateAdjacency(l: faces[i], r: faces[j])
             }
         }
 
@@ -361,12 +360,11 @@ internal class ConvexHullAlgorithm {
         // Init the vertex beyond buffers.
 
         for faceIndex in faces  {
-            let face = facePool[faceIndex]
-            findBeyondVertices(of: face)
-            if face.verticesBeyond.isEmpty {
-                convexFaces.append(face.index) // The face is on the hull
+            findBeyondVertices(face: faceIndex)
+            if facePool[faceIndex].verticesBeyond.isEmpty {
+                convexFaces.append(faceIndex) // The face is on the hull
             } else {
-                unprocessedFaces.append(face)
+                unprocessedFaces.append(faceIndex)
             }
         }
 
@@ -476,59 +474,60 @@ internal class ConvexHullAlgorithm {
 
 
     /// Check if 2 faces are adjacent and if so, update their AdjacentFaces array.
-    private func updateAdjacency(l: ConvexFaceInternal, r: ConvexFaceInternal) {
+    private func updateAdjacency(l: Int, r: Int) {
+        let lFace = facePool[l]
+        let rFace = facePool[r]
+        vertexVisited[lFace.vert0] = false
+        vertexVisited[lFace.vert1] = false
+        vertexVisited[lFace.vert2] = false
 
-        vertexVisited[l.vert0] = false
-        vertexVisited[l.vert1] = false
-        vertexVisited[l.vert2] = false
-
-        vertexVisited[r.vert0] = true
-        vertexVisited[r.vert1] = true
-        vertexVisited[r.vert2] = true
+        vertexVisited[rFace.vert0] = true
+        vertexVisited[rFace.vert1] = true
+        vertexVisited[rFace.vert2] = true
 
 
-        if !vertexVisited[l.vert0] && vertexVisited[l.vert1] && vertexVisited[l.vert2] {
-            l.adj0 = r.index
-        } else if !vertexVisited[l.vert1] && vertexVisited[l.vert0] && vertexVisited[l.vert2] {
-            l.adj1 = r.index
-        } else if !vertexVisited[l.vert2] && vertexVisited[l.vert0] && vertexVisited[l.vert1]  {
-            l.adj2 = r.index
+        if !vertexVisited[lFace.vert0] && vertexVisited[lFace.vert1] && vertexVisited[lFace.vert2] {
+            facePool[l].adj0 = r
+        } else if !vertexVisited[lFace.vert1] && vertexVisited[lFace.vert0] && vertexVisited[lFace.vert2] {
+            facePool[l].adj1 = r
+        } else if !vertexVisited[lFace.vert2] && vertexVisited[lFace.vert0] && vertexVisited[lFace.vert1]  {
+            facePool[l].adj2 = r
         } else {
             return
         }
 
         // update the adj. face on the other face - find the vertex that remains marked
-        vertexVisited[l.vert0] = false
-        vertexVisited[l.vert1] = false
-        vertexVisited[l.vert2] = false
+        vertexVisited[lFace.vert0] = false
+        vertexVisited[lFace.vert1] = false
+        vertexVisited[lFace.vert2] = false
 
-        if vertexVisited[r.vert0] {
-            r.adj0 = l.index
-        } else if vertexVisited[r.vert1] {
-            r.adj1 = l.index
-        } else if vertexVisited[r.vert2] {
-            r.adj2 = l.index
+        if vertexVisited[rFace.vert0] {
+            facePool[r].adj0 = l
+        } else if vertexVisited[rFace.vert1] {
+            facePool[r].adj1 = l
+        } else if vertexVisited[rFace.vert2] {
+            facePool[r].adj2 = l
         }
 
     }
 
 
     /// Used in the "initialization" code.
-    private func findBeyondVertices(of face: ConvexFaceInternal) {
+    private func findBeyondVertices(face: Int) {
         maxDistance = -Double.greatestFiniteMagnitude
         furthestVertex = 0
         for i in 0..<numberOfVertices where !vertexVisited[i] {
             if isBeyond(face: face, v: i) {
-                face.verticesBeyond.append(i)
+                facePool[face].verticesBeyond.append(i)
             }
         }
 
-        face.furthestVertex = furthestVertex
+        facePool[face].furthestVertex = furthestVertex
     }
 
 
     /// Check whether the vertex v is beyond the given face. If so, add it to beyondVertices.
-    private func isBeyond(face: ConvexFaceInternal, v: Int) -> Bool {
+    private func isBeyond(face: Int, v: Int) -> Bool {
         let distance = getVertexDistance(v: v, f: face)
         if distance >= planeDistanceTolerance {
             if distance > maxDistance {
@@ -587,10 +586,10 @@ internal class ConvexHullAlgorithm {
 
 
     /// Tags all faces seen from the current vertex with 1.
-    private func tagAffectedFaces(from currentFace: ConvexFaceInternal) {
+    private func tagAffectedFaces(from currentFace: Int) {
         affectedFaceBuffer.removeAll(keepingCapacity: true)
-        affectedFaceBuffer.append(currentFace.index)
-        traverseAffectedFaces(from: currentFace.index)
+        affectedFaceBuffer.append(currentFace)
+        traverseAffectedFaces(from: currentFace)
     }
 
 
@@ -602,19 +601,19 @@ internal class ConvexHullAlgorithm {
         while let toVisit = traverseStack.popLast() {
             let top = facePool[toVisit]
 
-            if !affectedFaceFlags[top.adj0] && getVertexDistance(v: currentVertex, f: facePool[top.adj0]) >= planeDistanceTolerance {
+            if !affectedFaceFlags[top.adj0] && getVertexDistance(v: currentVertex, f: top.adj0) >= planeDistanceTolerance {
                 affectedFaceBuffer.append(top.adj0)
                 affectedFaceFlags[top.adj0] = true
                 traverseStack.append(top.adj0)
             }
 
-            if !affectedFaceFlags[top.adj1] && getVertexDistance(v: currentVertex, f: facePool[top.adj1]) >= planeDistanceTolerance {
+            if !affectedFaceFlags[top.adj1] && getVertexDistance(v: currentVertex, f: top.adj1) >= planeDistanceTolerance {
                 affectedFaceBuffer.append(top.adj1)
                 affectedFaceFlags[top.adj1] = true
                 traverseStack.append(top.adj1)
             }
 
-            if !affectedFaceFlags[top.adj2] && getVertexDistance(v: currentVertex, f: facePool[top.adj2]) >= planeDistanceTolerance {
+            if !affectedFaceFlags[top.adj2] && getVertexDistance(v: currentVertex, f: top.adj2) >= planeDistanceTolerance {
                 affectedFaceBuffer.append(top.adj2)
                 affectedFaceFlags[top.adj2] = true
                 traverseStack.append(top.adj2)
@@ -632,19 +631,19 @@ internal class ConvexHullAlgorithm {
             let current = connectors.remove(at: index)
 
             if current.edgeIndex == 0 {
-                current.face.adj0 = connector.face.index
+                facePool[current.face].adj0 = connector.face
             } else if current.edgeIndex == 1 {
-                current.face.adj1 = connector.face.index
+                facePool[current.face].adj1 = connector.face
             } else {
-                current.face.adj2 = connector.face.index
+                facePool[current.face].adj2 = connector.face
             }
 
             if connector.edgeIndex == 0 {
-                connector.face.adj0 = current.face.index
+                facePool[connector.face].adj0 = current.face
             } else if connector.edgeIndex == 1 {
-                connector.face.adj1 = current.face.index
+                facePool[connector.face].adj1 = current.face
             } else {
-                connector.face.adj2 = current.face.index
+                facePool[connector.face].adj2 = current.face
             }
 
         } else {
@@ -702,27 +701,26 @@ internal class ConvexHullAlgorithm {
 
 
                 let newFace = getFace()
-                newFace.vert0 = oldFace.vert0
-                newFace.vert1 = oldFace.vert1
-                newFace.vert2 = oldFace.vert2
+                facePool[newFace].vert0 = oldFace.vert0
+                facePool[newFace].vert1 = oldFace.vert1
+                facePool[newFace].vert2 = oldFace.vert2
 
                 let oldVertexIndex: Int
                 if forbidden == 0 {
-                    oldVertexIndex = newFace.vert0
+                    oldVertexIndex = facePool[newFace].vert0
                 } else if forbidden == 1 {
-                    oldVertexIndex = newFace.vert1
+                    oldVertexIndex = facePool[newFace].vert1
                 } else {
-                    oldVertexIndex = newFace.vert2
+                    oldVertexIndex = facePool[newFace].vert2
                 }
-
                 var orderedPivotIndex = 0
 
                 // correct the ordering
                 if currentVertexIndex < oldVertexIndex {
                     orderedPivotIndex = 0
                     for j in stride(from: forbidden - 1,through: 0, by: -1) {
-                        if newFace[j] > currentVertexIndex {
-                            newFace[j + 1] = newFace[j]
+                        if facePool[newFace][j] > currentVertexIndex {
+                            facePool[newFace][j + 1] = facePool[newFace][j]
                         } else {
                             orderedPivotIndex = j + 1
                             break
@@ -731,8 +729,8 @@ internal class ConvexHullAlgorithm {
                 } else {
                     orderedPivotIndex = 3 - 1
                     for j in (forbidden + 1)..<3 {
-                        if newFace[j] < currentVertexIndex {
-                            newFace[j - 1] = newFace[j]
+                        if facePool[newFace][j] < currentVertexIndex {
+                            facePool[newFace][j - 1] = facePool[newFace][j]
                         } else {
                             orderedPivotIndex = j - 1
                             break
@@ -740,17 +738,17 @@ internal class ConvexHullAlgorithm {
                     }
                 }
                 if orderedPivotIndex == 0 {
-                    newFace.vert0 = currentVertex
+                    facePool[newFace].vert0 = currentVertex
                 } else if orderedPivotIndex == 1 {
-                    newFace.vert1 = currentVertex
+                    facePool[newFace].vert1 = currentVertex
                 } else {
-                    newFace.vert2 = currentVertex
+                    facePool[newFace].vert2 = currentVertex
                 }
 
                 if !calculateFacePlane(face: newFace, center: center) {
                     return false
                 }
-                let deferredFace = DeferredFace(face: newFace, pivot: adjacentFace, oldFace: oldFace, faceIndex: orderedPivotIndex, pivotIndex: oldFaceAdjacentIndex)
+                let deferredFace = DeferredFace(face: newFace, pivot: adjacentFace.index, oldFace: oldFace.index, faceIndex: orderedPivotIndex, pivotIndex: oldFaceAdjacentIndex)
 
                 coneFaceBuffer.append(deferredFace)
 
@@ -771,37 +769,36 @@ internal class ConvexHullAlgorithm {
 
             let orderedPivotIndex = face.faceIndex
 
-            newFace.set(adj: orderedPivotIndex, to: adjacentFace.index)
-            adjacentFace.set(adj: face.pivotIndex, to: newFace.index)
+            facePool[newFace].set(adj: orderedPivotIndex, to: adjacentFace)
+            facePool[adjacentFace].set(adj: face.pivotIndex, to: newFace)
 
             // let there be a connection.
             if orderedPivotIndex == 0 {
-                connectFace(with: FaceConnector(face: newFace, edgeIndex: 1))
-                connectFace(with: FaceConnector(face: newFace, edgeIndex: 2))
+                connectFace(with: FaceConnector(face: facePool[newFace], edgeIndex: 1))
+                connectFace(with: FaceConnector(face: facePool[newFace], edgeIndex: 2))
             } else if orderedPivotIndex == 1 {
-                connectFace(with: FaceConnector(face: newFace, edgeIndex: 0))
-                connectFace(with: FaceConnector(face: newFace, edgeIndex: 2))
+                connectFace(with: FaceConnector(face: facePool[newFace], edgeIndex: 0))
+                connectFace(with: FaceConnector(face: facePool[newFace], edgeIndex: 2))
             } else {
-                connectFace(with: FaceConnector(face: newFace, edgeIndex: 0))
-                connectFace(with: FaceConnector(face: newFace, edgeIndex: 1))
+                connectFace(with: FaceConnector(face: facePool[newFace], edgeIndex: 0))
+                connectFace(with: FaceConnector(face: facePool[newFace], edgeIndex: 1))
             }
 
             // the id adjacent face on the hull? If so, we can use simple method to find beyond vertices.
-            if adjacentFace.verticesBeyond.isEmpty {
-                findBeyondVertices(face: newFace, beyond: oldFace.verticesBeyond)
-            } else if (adjacentFace.verticesBeyond.count < oldFace.verticesBeyond.count) { // it is slightly more effective if the face with the lower number of beyond vertices comes first.
-                findBeyondVertices(face: newFace, beyond: adjacentFace.verticesBeyond, beyond1: oldFace.verticesBeyond)
+            if facePool[adjacentFace].verticesBeyond.isEmpty {
+                findBeyondVertices(face: newFace, beyond: oldFace)
+            } else if (facePool[adjacentFace].verticesBeyond.count < facePool[oldFace].verticesBeyond.count) { // it is slightly more effective if the face with the lower number of beyond vertices comes first.
+                findBeyondVertices(face: newFace, beyond: adjacentFace, beyond1: oldFace)
             } else {
-                findBeyondVertices(face: newFace, beyond: oldFace.verticesBeyond, beyond1: adjacentFace.verticesBeyond)
+                findBeyondVertices(face: newFace, beyond: oldFace, beyond1: adjacentFace)
             }
 
             // This face will definitely lie on the hull
-            if newFace.verticesBeyond.isEmpty {
-                convexFaces.append(newFace.index)
-                if let index = unprocessedFaces.firstIndex(where: { $0 === newFace }) {
+            if facePool[newFace].verticesBeyond.isEmpty {
+                convexFaces.append(newFace)
+                if let index = unprocessedFaces.firstIndex(of: newFace){
                     unprocessedFaces.remove(at: index)
                 }
-                newFace.verticesBeyond.removeAll(keepingCapacity: true)
             } else {
                 unprocessedFaces.append(newFace)
             }
@@ -810,8 +807,7 @@ internal class ConvexHullAlgorithm {
 
         // Recycle the affected faces.
         for faceIndex in affectedFaceBuffer {
-
-            if let index = unprocessedFaces.firstIndex(where: { $0 === facePool[faceIndex]}) {
+            if let index = unprocessedFaces.firstIndex(of: faceIndex) {
                 unprocessedFaces.remove(at: index)
             }
             depositFace(at: faceIndex)
@@ -832,10 +828,10 @@ internal class ConvexHullAlgorithm {
             }
 
             convexFaces.append(face.index)
-            if let index = unprocessedFaces.firstIndex(where: { $0 === face} ) {
+            if let index = unprocessedFaces.firstIndex(of: face.index) {
                 unprocessedFaces.remove(at: index)
             }
-            face.verticesBeyond.removeAll(keepingCapacity: true)
+            facePool[affectedFaceBuffer[fIndex]].verticesBeyond.removeAll(keepingCapacity: true)
         }
     }
 
@@ -852,47 +848,48 @@ internal class ConvexHullAlgorithm {
     }
 
     /// Used by update faces.
-    private func findBeyondVertices(face: ConvexFaceInternal, beyond: [Int] , beyond1: [Int] ) {
+    private func findBeyondVertices(face: Int, beyond: Int, beyond1: Int) {
+
         maxDistance = Double.greatestFiniteMagnitude * -1
         furthestVertex = 0
 
-        if !face.verticesBeyond.isEmpty {
-            face.verticesBeyond.removeAll(keepingCapacity: true)
+        if !facePool[face].verticesBeyond.isEmpty {
+            facePool[face].verticesBeyond.removeAll(keepingCapacity: true)
         }
-        for v in beyond1 {
+        for v in facePool[beyond1].verticesBeyond {
             vertexVisited[v] = true
         }
 
         vertexVisited[currentVertex] = false
-        for v in beyond where v != currentVertex {
+        for v in facePool[beyond].verticesBeyond where v != currentVertex {
 
             vertexVisited[v] = false
             if isBeyond(face: face, v: v) {
-                face.verticesBeyond.append(v)
+                facePool[face].verticesBeyond.append(v)
             }
         }
 
-        for v in beyond1 where vertexVisited[v] && isBeyond(face: face, v: v) {
-            face.verticesBeyond.append(v)
+        for v in facePool[beyond1].verticesBeyond where vertexVisited[v] && isBeyond(face: face, v: v) {
+            facePool[face].verticesBeyond.append(v)
         }
 
-        face.furthestVertex = furthestVertex
+        facePool[face].furthestVertex = furthestVertex
     }
 
     /// Finds the beyond vertices.
-    private func findBeyondVertices(face: ConvexFaceInternal , beyond: [Int]) {
-        if !face.verticesBeyond.isEmpty {
-            face.verticesBeyond.removeAll(keepingCapacity: true)
+    private func findBeyondVertices(face: Int , beyond: Int) {
+        if !facePool[face].verticesBeyond.isEmpty {
+            facePool[face].verticesBeyond.removeAll(keepingCapacity: true)
         }
 
         maxDistance = -Double.greatestFiniteMagnitude
         furthestVertex = 0
 
-        for v in beyond where v != currentVertex && isBeyond(face: face, v: v) {
-            face.verticesBeyond.append(v)
+        for v in facePool[beyond].verticesBeyond where v != currentVertex && isBeyond(face: face, v: v) {
+            facePool[face].verticesBeyond.append(v)
         }
 
-        face.furthestVertex = furthestVertex
+        facePool[face].furthestVertex = furthestVertex
 
     }
 
@@ -932,7 +929,7 @@ internal class ConvexHullAlgorithm {
             let face = facePool[faces[i]]
             let conFace = ConvexFace(vertices: [self.vertices[face.vert0], self.vertices[face.vert1], self.vertices[face.vert2]], normal: face.normal)
             cells.append(conFace)
-            face.tag = i
+            facePool[faces[i]].tag = i
         }
 
         for i in 0..<cellCount {
@@ -996,35 +993,34 @@ internal class ConvexHullAlgorithm {
     }
 
     /// Calculates the normal and offset of the hyper-plane given by the face's vertices.
-    internal func calculateFacePlane(face: ConvexFaceInternal, center: Vector3) -> Bool {
+    internal func calculateFacePlane(face: Int, center: Vector3) -> Bool {
 
-        face.normal = findNormalVector(a: face.vert0, b: face.vert1, c: face.vert2)
-
-        if face.normal.x.isNaN {
+        let normal = findNormalVector(for: face)
+        facePool[face].normal = normal
+        if normal.x.isNaN {
             return false
         }
 
         var offset = 0.0;
         var centerDistance = 0.0;
-        let fi = face.vert0
-        let faceNorm = face.normal
-        offset += faceNorm.x * positions[fi].x
-        centerDistance += faceNorm.x * center.x
-        offset += faceNorm.y * positions[fi].y
-        centerDistance += faceNorm.y * center.y
-        offset += faceNorm.z * positions[fi].z
-        centerDistance += faceNorm.z * center.z
+        let fi = facePool[face].vert0
+        offset += normal.x * positions[fi].x
+        centerDistance += normal.x * center.x
+        offset += normal.y * positions[fi].y
+        centerDistance += normal.y * center.y
+        offset += normal.z * positions[fi].z
+        centerDistance += normal.z * center.z
 
-        face.offset = -offset;
+        facePool[face].offset = -offset;
         centerDistance -= offset;
 
         if centerDistance > 0 {
 
-            face.normal = face.normal * -1
-            face.offset = offset;
-            face.isNormalFlipped = true
+            facePool[face].normal = normal * -1
+            facePool[face].offset = offset;
+            facePool[face].isNormalFlipped = true
         } else {
-            face.isNormalFlipped = false
+            facePool[face].isNormalFlipped = false
         }
 
         return true;
@@ -1032,10 +1028,10 @@ internal class ConvexHullAlgorithm {
 
     /// Check if the vertex is "visible" from the face.
     /// The vertex is "over face" if the return value is > Constants.PlaneDistanceTolerance.
-    internal func getVertexDistance(v: Int, f: ConvexFaceInternal) -> Double {
-        let normal = f.normal
+    internal func getVertexDistance(v: Int, f: Int) -> Double {
+        let normal = facePool[f].normal
 
-        var distance = f.offset;
+        var distance = facePool[f].offset;
 
         distance += normal.x * positions[v].x
         distance += normal.y * positions[v].y
@@ -1053,7 +1049,11 @@ internal class ConvexHullAlgorithm {
 
     /// Finds normal vector of a hyper-plane given by vertices.
     /// Stores the results to normalData.
-    private func findNormalVector(a: Int, b: Int, c: Int) -> Vector3 {
+    private func findNormalVector(for faceIndex: Int) -> Vector3 {
+        let a: Int = facePool[faceIndex].vert0
+        let b: Int = facePool[faceIndex].vert1
+        let c: Int = facePool[faceIndex].vert2
+
         let ntX = positions[b] - positions[a]
         let ntY = positions[c] - positions[b]
 
