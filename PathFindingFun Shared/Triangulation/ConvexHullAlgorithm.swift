@@ -260,7 +260,7 @@ internal class ConvexHullAlgorithm {
                 } else if (difference > 0) {
                     // you found a solution slightly better than before, clear out those that are no longer on the list and store new value
                     min = v
-                    minIndices.removeWhere { min - getCoordinate(vIndex: $0, dimension: i) > planeDistanceTolerance }
+                    minIndices = minIndices.filter { min - getCoordinate(vIndex: $0, dimension: i) <= planeDistanceTolerance }
                     minIndices.append(j)
                 } else if (difference > -planeDistanceTolerance) {
                     //same or almost as good as current limit, so store it
@@ -277,7 +277,7 @@ internal class ConvexHullAlgorithm {
                 } else if difference > 0 {
                     // you found a solution slightly better than before, clear out those that are no longer on the list and store new value
                     max = v
-                    maxIndices.removeWhere { min - getCoordinate(vIndex: $0, dimension: i) > planeDistanceTolerance }
+                    maxIndices = maxIndices.filter { min - getCoordinate(vIndex: $0, dimension: i) <= planeDistanceTolerance }
                     maxIndices.append(j)
                 } else if difference > -planeDistanceTolerance {
                     //same or almost as good as current limit, so store it
