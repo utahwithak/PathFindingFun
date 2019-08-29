@@ -8,4 +8,6 @@ public struct MapNode
     public BuildQuality buildQuality;
 
     public MapObject mapObject;
+
+    public byte altitude;
 }

@@ -48,8 +48,8 @@ sealed class Directions
         return Direction.east;
     }
 
-    static readonly Direction[] westNorth = { Direction.west, Direction.northwest, Direction.northeast };
-    static readonly Direction[] eastSouth = { Direction.east, Direction.southeast, Direction.southwest };
+    public static readonly Direction[] westNorth = { Direction.west, Direction.northwest, Direction.northeast };
+    public static readonly Direction[] eastSouth = { Direction.east, Direction.southeast, Direction.southwest };
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool isEastOrSouth(Direction dir)

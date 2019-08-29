@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import ConvexHull
 
 class GameScene: SKScene {
 
@@ -101,6 +102,14 @@ class GameScene: SKScene {
         //            randomStart.receiveRequest(request: resourceRequest)
         //        }
 
+//        var gen = Xoroshiro(seed: (10,100))
+//        var pts = [Vertex]()
+//        for x in 0..<100 {
+//            for y in 0..<100 {
+//                let pt = Vertex([x, y])
+//                pts.append(pt)
+//            }
+//        }
 
     }
 

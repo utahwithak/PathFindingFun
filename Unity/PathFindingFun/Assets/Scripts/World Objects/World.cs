@@ -1,6 +1,5 @@
 ﻿using System;
-
-using MapPoint = Point<ushort>;
+using Unity;
 
 public class World
 {
@@ -205,18 +204,20 @@ public class World
         {
             pty += height;
         }
-        return new MapPoint((ushort)ptx, (ushort)pty);
+        return new MapPoint(ptx, pty);
 
     }
 
     public BuildQuality GetBuildQuality(MapPoint pt, int player)
     {
         BuildQuality nodeQuality = GetNode(pt).buildQuality;
-        if (nodeQuality == BuildQuality.nothing || !isPlayerTerritory(pt, player)) {
+        if (nodeQuality == BuildQuality.nothing || !isPlayerTerritory(pt, player))
+        {
             return BuildQuality.nothing;
         }
 
-        if (nodeQuality != BuildQuality.flag && !isPlayerTerritory(GetNeighbor(pt,Direction.southeast), player)) {
+        if (nodeQuality != BuildQuality.flag && !isPlayerTerritory(GetNeighbor(pt, Direction.southeast), player))
+        {
             if (GetObject(GetNeighbor(pt, Direction.west))?.blockingType == BlockingType.flag)
             {
                 return BuildQuality.nothing;
@@ -239,9 +240,131 @@ public class World
 
     }
 
+    public bool CanBuildRoad(MapPoint pt, bool forBoat)
+    {
+        if (GetObject(pt)?.blockingType == BlockingType.none)
+        {
+            return false;
+        }
 
-    public bool isPlayerTerritory(MapPoint pt, int player) {
+        foreach (Direction dir in Directions.allDirections)
+        {
+            if (GetObject(GetNeighbor(pt, dir))?.blockingType == BlockingType.nothingAround)
+            {
+                return false;
+            }
+            if (HasRoad(pt, dir))
+            {
+                return false;
+            }
+
+        }
+
         return true;
+    }
+
+    public bool HasRoad(MapPoint pt, Direction dir)
+    {
+        if (Directions.isEastOrSouth(dir))
+        {
+            return GetRoad(pt, Directions.reversed(dir)) != Road.Types.none;
+        }
+        else
+        {
+            return GetRoad(GetNeighbor(pt, dir), dir) != Road.Types.none;
+        }
+    }
+
+    public Road.Types GetRoad(MapPoint pt, Direction dir)
+    {
+        return GetNode(pt).roads[(int)dir];
+    }
+
+    public bool isPlayerTerritory(MapPoint pt, int player)
+    {
+        return true;
+    }
+
+    public bool IsOnRoad(MapPoint pt)
+    {
+        foreach(Direction roadDir in Directions.westNorth) {
+            if (HasRoad(pt, roadDir) || HasRoad(GetNeighbor(pt, roadDir), roadDir)) {
+                return true;
+            }
+        }
+
+
+        return false;
+    }
+
+    public void RecalcBuildQualityForRoad(MapPoint pt)
+    {
+        RecalcBuildQuality(pt);
+        RecalcBuildQuality(GetNeighbor(pt, Direction.east));
+        RecalcBuildQuality(GetNeighbor(pt, Direction.southeast));
+        RecalcBuildQuality(GetNeighbor(pt, Direction.southwest));
+
+    }
+
+    public void RecalcBuildQualityAround(MapPoint pt, bool extended = false)
+    {
+        RecalcBuildQuality(pt);
+
+        foreach(Direction dir in Directions.allDirections)
+        {
+            RecalcBuildQuality(GetNeighbor(pt, dir));
+        }
+
+        if (extended) {
+            for (int i = 0; i < 12; ++i)
+            {
+                RecalcBuildQuality(GetSecondNeighbor(pt, i));
+            }
+        }
+        
+    }
+
+
+    public void RecalcBuildQuality(MapPoint pt)
+    {
+        BuildQualityCalculator calculator = new BuildQualityCalculator(this);
+        if (SetBuildQuality(pt, calculator.GetBuildQuality(pt))) {
+            UnityEngine.Debug.Log("Notify BQ Change!");
+        }
+    }
+
+    public bool IsFlagAround(MapPoint pt) {
+        foreach(Direction dir in Directions.allDirections) {
+            if (GetObject(GetNeighbor(pt, dir))?.blockingType == BlockingType.flag) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public void PlaceFlag(MapPoint pt, int player, Direction dir)
+    {
+        if (GetBuildQuality(pt, player) == BuildQuality.nothing) {
+            UnityEngine.Debug.Log("Failed to place flag, BQ");
+            return;
+        }
+
+        if (IsFlagAround(pt))
+        {
+            UnityEngine.Debug.Log("Failed to place flag, Flag Around");
+            return;
+        }
+
+        if (GetObject(pt) is Flag)
+        {
+            UnityEngine.Debug.Log("Failed to place flag, already one there!");
+            return;
+        }
+
+        SetObject(pt, new Flag(pt, player));
+        RecalcBuildQualityAround(pt, true);
+        
     }
 
 }

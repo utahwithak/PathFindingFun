@@ -7,6 +7,32 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8F25610C2318098500BE706E /* SCNVector3+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2561002318098400BE706E /* SCNVector3+Additions.swift */; };
+		8F25610D2318098500BE706E /* SCNVector3+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2561002318098400BE706E /* SCNVector3+Additions.swift */; };
+		8F25610E2318098500BE706E /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2561012318098400BE706E /* DataModel.swift */; };
+		8F25610F2318098500BE706E /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2561012318098400BE706E /* DataModel.swift */; };
+		8F2561102318098500BE706E /* Array+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2561022318098400BE706E /* Array+Additions.swift */; };
+		8F2561112318098500BE706E /* Array+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2561022318098400BE706E /* Array+Additions.swift */; };
+		8F2561122318098500BE706E /* Vector3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2561032318098400BE706E /* Vector3.swift */; };
+		8F2561132318098500BE706E /* Vector3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2561032318098400BE706E /* Vector3.swift */; };
+		8F2561142318098500BE706E /* MeshUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2561042318098400BE706E /* MeshUtils.swift */; };
+		8F2561152318098500BE706E /* MeshUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2561042318098400BE706E /* MeshUtils.swift */; };
+		8F2561162318098500BE706E /* PriorityQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2561052318098400BE706E /* PriorityQueue.swift */; };
+		8F2561172318098500BE706E /* PriorityQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2561052318098400BE706E /* PriorityQueue.swift */; };
+		8F2561182318098500BE706E /* ConvexHull.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2561062318098400BE706E /* ConvexHull.swift */; };
+		8F2561192318098500BE706E /* ConvexHull.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2561062318098400BE706E /* ConvexHull.swift */; };
+		8F25611A2318098500BE706E /* simd+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2561072318098400BE706E /* simd+Additions.swift */; };
+		8F25611B2318098500BE706E /* simd+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2561072318098400BE706E /* simd+Additions.swift */; };
+		8F25611C2318098500BE706E /* ConvexFace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2561082318098400BE706E /* ConvexFace.swift */; };
+		8F25611D2318098500BE706E /* ConvexFace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2561082318098400BE706E /* ConvexFace.swift */; };
+		8F25611E2318098500BE706E /* IcosphereCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2561092318098400BE706E /* IcosphereCreator.swift */; };
+		8F25611F2318098500BE706E /* IcosphereCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2561092318098400BE706E /* IcosphereCreator.swift */; };
+		8F2561202318098500BE706E /* Decimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F25610A2318098500BE706E /* Decimator.swift */; };
+		8F2561212318098500BE706E /* Decimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F25610A2318098500BE706E /* Decimator.swift */; };
+		8F2561222318098500BE706E /* ConvexHullAlgorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F25610B2318098500BE706E /* ConvexHullAlgorithm.swift */; };
+		8F2561232318098500BE706E /* ConvexHullAlgorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F25610B2318098500BE706E /* ConvexHullAlgorithm.swift */; };
+		8F256125231809AC00BE706E /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F256124231809AC00BE706E /* Random.swift */; };
+		8F256126231809AC00BE706E /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F256124231809AC00BE706E /* Random.swift */; };
 		8F59F27923141EBD00325E23 /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F59F27823141EBD00325E23 /* World.swift */; };
 		8F59F27B23141EEF00325E23 /* MapNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F59F27A23141EEF00325E23 /* MapNode.swift */; };
 		8F59F27D231422CA00325E23 /* RoadTerminal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F59F27C231422CA00325E23 /* RoadTerminal.swift */; };
@@ -58,7 +84,43 @@
 		8FECDB242315B964006AFCDF /* BuildRoadPathFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FECDB222315B964006AFCDF /* BuildRoadPathFinder.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		8F2560FE2318079900BE706E /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8F588A6F2317F25E00050B3F /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		8F2561002318098400BE706E /* SCNVector3+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNVector3+Additions.swift"; sourceTree = "<group>"; };
+		8F2561012318098400BE706E /* DataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
+		8F2561022318098400BE706E /* Array+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Additions.swift"; sourceTree = "<group>"; };
+		8F2561032318098400BE706E /* Vector3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vector3.swift; sourceTree = "<group>"; };
+		8F2561042318098400BE706E /* MeshUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeshUtils.swift; sourceTree = "<group>"; };
+		8F2561052318098400BE706E /* PriorityQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PriorityQueue.swift; sourceTree = "<group>"; };
+		8F2561062318098400BE706E /* ConvexHull.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConvexHull.swift; sourceTree = "<group>"; };
+		8F2561072318098400BE706E /* simd+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "simd+Additions.swift"; sourceTree = "<group>"; };
+		8F2561082318098400BE706E /* ConvexFace.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConvexFace.swift; sourceTree = "<group>"; };
+		8F2561092318098400BE706E /* IcosphereCreator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IcosphereCreator.swift; sourceTree = "<group>"; };
+		8F25610A2318098500BE706E /* Decimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Decimator.swift; sourceTree = "<group>"; };
+		8F25610B2318098500BE706E /* ConvexHullAlgorithm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConvexHullAlgorithm.swift; sourceTree = "<group>"; };
+		8F256124231809AC00BE706E /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
 		8F59F27823141EBD00325E23 /* World.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = World.swift; sourceTree = "<group>"; };
 		8F59F27A23141EEF00325E23 /* MapNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapNode.swift; sourceTree = "<group>"; };
 		8F59F27C231422CA00325E23 /* RoadTerminal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoadTerminal.swift; sourceTree = "<group>"; };
@@ -111,6 +173,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8F2560FF2318097700BE706E /* Triangulation */ = {
+			isa = PBXGroup;
+			children = (
+				8F256124231809AC00BE706E /* Random.swift */,
+				8F2561042318098400BE706E /* MeshUtils.swift */,
+				8F2561072318098400BE706E /* simd+Additions.swift */,
+				8F2561002318098400BE706E /* SCNVector3+Additions.swift */,
+				8F2561092318098400BE706E /* IcosphereCreator.swift */,
+				8F25610A2318098500BE706E /* Decimator.swift */,
+				8F2561052318098400BE706E /* PriorityQueue.swift */,
+				8F2561032318098400BE706E /* Vector3.swift */,
+				8F2561022318098400BE706E /* Array+Additions.swift */,
+				8F2561082318098400BE706E /* ConvexFace.swift */,
+				8F2561062318098400BE706E /* ConvexHull.swift */,
+				8F25610B2318098500BE706E /* ConvexHullAlgorithm.swift */,
+				8F2561012318098400BE706E /* DataModel.swift */,
+			);
+			path = Triangulation;
+			sourceTree = "<group>";
+		};
+		8F588A6C2317F25E00050B3F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		8F59F2982314657800325E23 /* Path Finding */ = {
 			isa = PBXGroup;
 			children = (
@@ -138,6 +227,7 @@
 				8FD5EBD3231016C9006354CC /* PathFindingFun iOS */,
 				8FD5EBE4231016C9006354CC /* PathFindingFun macOS */,
 				8FD5EBD2231016C9006354CC /* Products */,
+				8F588A6C2317F25E00050B3F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -159,6 +249,7 @@
 				8FD5EC0C231066D1006354CC /* ResourceRouteRequest.swift */,
 				8FD5EC092310626E006354CC /* TransporationSettings.swift */,
 				8FD5EC0F2310887E006354CC /* Worker.swift */,
+				8F2560FF2318097700BE706E /* Triangulation */,
 				8F59F2982314657800325E23 /* Path Finding */,
 				8FD5EBCC231016C9006354CC /* Assets.xcassets */,
 			);
@@ -207,6 +298,7 @@
 				8FD5EBCD231016C9006354CC /* Sources */,
 				8FD5EBCE231016C9006354CC /* Frameworks */,
 				8FD5EBCF231016C9006354CC /* Resources */,
+				8F588A6F2317F25E00050B3F /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -224,6 +316,7 @@
 				8FD5EBDF231016C9006354CC /* Sources */,
 				8FD5EBE0231016C9006354CC /* Frameworks */,
 				8FD5EBE1231016C9006354CC /* Resources */,
+				8F2560FE2318079900BE706E /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -303,17 +396,25 @@
 			buildActionMask = 2147483647;
 			files = (
 				8F59F2932314370D00325E23 /* Point.swift in Sources */,
+				8F2561142318098500BE706E /* MeshUtils.swift in Sources */,
 				8FD5EBFE23101992006354CC /* PathFinder.swift in Sources */,
+				8F2561222318098500BE706E /* ConvexHullAlgorithm.swift in Sources */,
 				8F59F27D231422CA00325E23 /* RoadTerminal.swift in Sources */,
 				8FD5EC0D231066D1006354CC /* ResourceRouteRequest.swift in Sources */,
+				8F25611E2318098500BE706E /* IcosphereCreator.swift in Sources */,
 				8F59F27F2314273900325E23 /* MapObject.swift in Sources */,
 				8FD5EBF1231016C9006354CC /* GameScene.swift in Sources */,
 				8F59F27B23141EEF00325E23 /* MapNode.swift in Sources */,
 				8FD5EC0123101F7F006354CC /* Flag.swift in Sources */,
 				8FD5EC0A2310626E006354CC /* TransporationSettings.swift in Sources */,
+				8F25611A2318098500BE706E /* simd+Additions.swift in Sources */,
+				8F25611C2318098500BE706E /* ConvexFace.swift in Sources */,
 				8F59F29023142F8800325E23 /* Direction.swift in Sources */,
+				8F25610C2318098500BE706E /* SCNVector3+Additions.swift in Sources */,
 				8FD5EC102310887E006354CC /* Worker.swift in Sources */,
 				8FD5EC0423101F8F006354CC /* Road.swift in Sources */,
+				8F25610E2318098500BE706E /* DataModel.swift in Sources */,
+				8F2561182318098500BE706E /* ConvexHull.swift in Sources */,
 				8F59F29623145BFF00325E23 /* FreeWorldPathFinder.swift in Sources */,
 				8F59F27923141EBD00325E23 /* World.swift in Sources */,
 				8FD5EBD7231016C9006354CC /* GameViewController.swift in Sources */,
@@ -321,7 +422,12 @@
 				8FD5EC0723105E25006354CC /* Resource.swift in Sources */,
 				8F59F29A2314658900325E23 /* PathConditioner.swift in Sources */,
 				8FBBDFEE23157AFD00565391 /* BuildingQuality.swift in Sources */,
+				8F2561102318098500BE706E /* Array+Additions.swift in Sources */,
+				8F2561122318098500BE706E /* Vector3.swift in Sources */,
+				8F2561202318098500BE706E /* Decimator.swift in Sources */,
 				8FECDB232315B964006AFCDF /* BuildRoadPathFinder.swift in Sources */,
+				8F2561162318098500BE706E /* PriorityQueue.swift in Sources */,
+				8F256125231809AC00BE706E /* Random.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -330,17 +436,25 @@
 			buildActionMask = 2147483647;
 			files = (
 				8F59F2942314377700325E23 /* Point.swift in Sources */,
+				8F2561152318098500BE706E /* MeshUtils.swift in Sources */,
 				8F59F28E23142C0500325E23 /* PathFinder.swift in Sources */,
+				8F2561232318098500BE706E /* ConvexHullAlgorithm.swift in Sources */,
 				8F59F28623142C0500325E23 /* MapNode.swift in Sources */,
 				8F59F28D23142C0500325E23 /* Worker.swift in Sources */,
+				8F25611F2318098500BE706E /* IcosphereCreator.swift in Sources */,
 				8FD5EBF2231016C9006354CC /* GameScene.swift in Sources */,
 				8FD5EBE8231016C9006354CC /* GameViewController.swift in Sources */,
 				8F59F28C23142C0500325E23 /* TransporationSettings.swift in Sources */,
 				8F59F28A23142C0500325E23 /* Resource.swift in Sources */,
 				8F59F28923142C0500325E23 /* RoadTerminal.swift in Sources */,
+				8F25611B2318098500BE706E /* simd+Additions.swift in Sources */,
+				8F25611D2318098500BE706E /* ConvexFace.swift in Sources */,
 				8F59F2912314316200325E23 /* Direction.swift in Sources */,
+				8F25610D2318098500BE706E /* SCNVector3+Additions.swift in Sources */,
 				8F59F28823142C0500325E23 /* Road.swift in Sources */,
 				8F59F28723142C0500325E23 /* MapObject.swift in Sources */,
+				8F25610F2318098500BE706E /* DataModel.swift in Sources */,
+				8F2561192318098500BE706E /* ConvexHull.swift in Sources */,
 				8F59F29723145BFF00325E23 /* FreeWorldPathFinder.swift in Sources */,
 				8F59F28523142C0500325E23 /* Flag.swift in Sources */,
 				8F59F28423142C0500325E23 /* World.swift in Sources */,
@@ -348,7 +462,12 @@
 				8FD5EBE6231016C9006354CC /* AppDelegate.swift in Sources */,
 				8F59F29B2314658900325E23 /* PathConditioner.swift in Sources */,
 				8FBBDFEF23157AFD00565391 /* BuildingQuality.swift in Sources */,
+				8F2561112318098500BE706E /* Array+Additions.swift in Sources */,
+				8F2561132318098500BE706E /* Vector3.swift in Sources */,
+				8F2561212318098500BE706E /* Decimator.swift in Sources */,
 				8FECDB242315B964006AFCDF /* BuildRoadPathFinder.swift in Sources */,
+				8F2561172318098500BE706E /* PriorityQueue.swift in Sources */,
+				8F256126231809AC00BE706E /* Random.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
