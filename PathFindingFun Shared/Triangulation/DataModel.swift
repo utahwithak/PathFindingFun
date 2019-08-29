@@ -32,12 +32,10 @@
 import Foundation
 
 internal struct DeferredFace {
-
     /// The faces.
     let face: Int
     let pivot: Int
     let oldFace: Int
-
 
     /// The indices.
     let faceIndex: Int
@@ -45,16 +43,13 @@ internal struct DeferredFace {
 }
 
 /// A helper class used to connect faces.
-internal struct FaceConnector {
+internal struct FaceConnector: Equatable, Hashable {
 
     /// The edge to be connected.
     let edgeIndex: Int
 
     /// The face.
     let face: Int
-
-    /// The hash code computed from indices.
-    let hashCode: UInt64
 
     /// The vertex indices.
     let v0: Int
@@ -76,11 +71,14 @@ internal struct FaceConnector {
             v1 = face.vert1
         }
 
-        var hashCode = UInt64(23)
-        hashCode = hashCode &+ (31 &* hashCode &+ UInt64(v0))
-        hashCode = hashCode &+ (31 &* hashCode &+ UInt64(v1))
+    }
 
-        self.hashCode = hashCode
+    static func ==(lhs: FaceConnector, rhs: FaceConnector) -> Bool {
+        return lhs.v0 == rhs.v0 && lhs.v1 == rhs.v1
+    }
+    func hash(into hasher: inout Hasher) {
+        v0.hash(into: &hasher)
+        v1.hash(into: &hasher)
     }
 
 }
@@ -119,9 +117,6 @@ struct ConvexFaceInternal {
 
     /// Face plane constant element.
     public var offset: Double = 0
-
-    /// Used to traverse affected faces and create the Delaunay representation.
-    public var tag = 0
 
     /// Gets or sets the vertices.
     public var vert0 = 0
