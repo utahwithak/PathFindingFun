@@ -623,13 +623,13 @@ public class Decimator {
         var onBoundary = false
 
         mutating func remove(triangle: Int) {
-            if let index = triangles.index(of: triangle) {
+            if let index = triangles.firstIndex(of: triangle) {
                 triangles.remove(at: index)
             }
         }
 
         mutating func remove(edge: Int) {
-            if let index = edges.index(of: edge) {
+            if let index = edges.firstIndex(of: edge) {
                 edges.remove(at: index)
             }
         }

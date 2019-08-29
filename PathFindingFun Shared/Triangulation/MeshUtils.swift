@@ -13,12 +13,12 @@ import simd
 
 final class MeshUtils {
     struct GeometryVertex {
-        let position: float3
-        let normal: float3
-//        let color: float3
+        let position: SIMD3<Float>
+        let normal: SIMD3<Float>
+//        let color: SIMD3<Float>
     }
 
-    public static func geometry(from points: [Vector3], vertColor: float3 = float3(x: 1, y: 1, z: 1)) -> SCNGeometry {
+    public static func geometry(from points: [Vector3], vertColor: SIMD3<Float> = SIMD3<Float>(x: 1, y: 1, z: 1)) -> SCNGeometry {
         let hull = ConvexHull.create(with: points)
 
         let faces = hull.faces
@@ -31,10 +31,10 @@ final class MeshUtils {
                 continue
             }
             let normalVert = face.normal
-            let normal = float3(x: Float(normalVert.x), y: Float(normalVert.y), z: Float(normalVert.z))
+            let normal = SIMD3<Float>(x: Float(normalVert.x), y: Float(normalVert.y), z: Float(normalVert.z))
             let verts = face.vertices
             for vert in verts {
-                let geoVert = GeometryVertex(position: float3(x:Float(vert.x),y: Float(vert.y),z: Float(vert.z)), normal: normal/*, color: vertColor*/)
+                let geoVert = GeometryVertex(position: SIMD3<Float>(x:Float(vert.x),y: Float(vert.y),z: Float(vert.z)), normal: normal/*, color: vertColor*/)
                 tris.append(CInt(tris.count))
                 geoVerts.append(geoVert);
             }
@@ -58,7 +58,7 @@ final class MeshUtils {
                 continue
             }
             let normalVert = face.normal
-            let normal = float3(x: Float(normalVert.x), y: Float(normalVert.y), z: Float(normalVert.z))
+            let normal = SIMD3<Float>(x: Float(normalVert.x), y: Float(normalVert.y), z: Float(normalVert.z))
 
             if !includeHorizontal && abs(normalVert.y) == 1 {
                 continue
@@ -66,7 +66,7 @@ final class MeshUtils {
 
             let verts = face.vertices
             for vert in verts {
-                let geoVert = GeometryVertex(position: float3(x:Float(vert.x),y: Float(vert.y),z: Float(vert.z)), normal: normal/*, color: vertColor*/)
+                let geoVert = GeometryVertex(position: SIMD3<Float>(x:Float(vert.x),y: Float(vert.y),z: Float(vert.z)), normal: normal/*, color: vertColor*/)
                 geoVerts.append(geoVert);
             }
         }
@@ -76,7 +76,7 @@ final class MeshUtils {
 
     }
 
-    public static func trunkShell(from points: [Vector3], vertColor: float3 = float3(x: 1, y: 1, z: 1)) -> SCNGeometry {
+    public static func trunkShell(from points: [Vector3], vertColor: SIMD3<Float> = SIMD3<Float>(x: 1, y: 1, z: 1)) -> SCNGeometry {
         let hull = ConvexHull.create(with: points)
 
         let faces = hull.faces
@@ -93,10 +93,10 @@ final class MeshUtils {
             if abs(normalVert.y) == 1 {
                 continue
             }
-            let normal = float3(x: Float(normalVert.x), y: Float(normalVert.y), z: Float(normalVert.z))
+            let normal = SIMD3<Float>(x: Float(normalVert.x), y: Float(normalVert.y), z: Float(normalVert.z))
             let verts = face.vertices
             for vert in verts {
-                let geoVert = GeometryVertex(position: float3(x:Float(vert.x),y: Float(vert.y),z: Float(vert.z)), normal: normal/*, color: vertColor*/)
+                let geoVert = GeometryVertex(position: SIMD3<Float>(x:Float(vert.x),y: Float(vert.y),z: Float(vert.z)), normal: normal/*, color: vertColor*/)
                 tris.append(CInt(tris.count))
                 geoVerts.append(geoVert);
             }
@@ -125,7 +125,7 @@ final class MeshUtils {
                                              usesFloatComponents: true,
                                              componentsPerVector: 3,
                                              bytesPerComponent: MemoryLayout<Float>.size,
-                                             dataOffset: MemoryLayout<float3>.size,
+                                             dataOffset: MemoryLayout<SIMD3<Float>>.size,
                                              dataStride: MemoryLayout<GeometryVertex>.size)
 
 
@@ -135,7 +135,7 @@ final class MeshUtils {
 //                                            usesFloatComponents: true,
 //                                            componentsPerVector: 3,
 //                                            bytesPerComponent: MemoryLayout<Float>.size,
-//                                            dataOffset: (2 * MemoryLayout<float3>.size),
+//                                            dataOffset: (2 * MemoryLayout<SIMD3<Float>>.size),
 //                                            dataStride: MemoryLayout<GeometryVertex>.size)
 
         let triData = Data(bytes: UnsafeRawPointer(triangles), count: MemoryLayout<CInt>.size * triangles.count)
@@ -164,7 +164,7 @@ final class MeshUtils {
                                              usesFloatComponents: true,
                                              componentsPerVector: 3,
                                              bytesPerComponent: MemoryLayout<Float>.size,
-                                             dataOffset: MemoryLayout<float3>.size,
+                                             dataOffset: MemoryLayout<SIMD3<Float>>.size,
                                              dataStride: MemoryLayout<GeometryVertex>.size)
 
         let triangles = [CInt](CInt(0)..<CInt(vertices.count))

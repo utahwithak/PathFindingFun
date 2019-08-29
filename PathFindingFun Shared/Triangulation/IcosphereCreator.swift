@@ -17,13 +17,13 @@ public class IcoSphereCreator
     }
 
 
-    public static func icospherePoints(level: Int, radius: Float = 1, shift: float3 = float3(0,0,0)) -> [float3] {
-        var positions = [float3]()
+    public static func icospherePoints(level: Int, radius: Float = 1, shift: SIMD3<Float> = SIMD3<Float>(0,0,0)) -> [SIMD3<Float>] {
+        var positions = [SIMD3<Float>]()
         var middlePointIndexCache = [Int: Int]()
 
-        let addVertex: (_ vert: float3) -> Int = { vert in
-            SIMD3<Float>
-            positions.append((vert .normalized * radius) + shift)
+        let addVertex: (_ vert: SIMD3<Float>) -> Int = { vert in
+
+            positions.append((normalize(vert) * radius) + shift)
             return positions.count - 1
         }
 
@@ -57,20 +57,20 @@ public class IcoSphereCreator
 
         // create 12 vertices of a icosahedron
         let t = Float(1.0 + sqrt(5.0)) / 2.0;
-        let initial = [float3(-1,  t,  0),
-                     float3( 1,  t,  0),
-                     float3(-1, -t,  0),
-                     float3( 1, -t,  0),
+        let initial = [SIMD3<Float>(-1,  t,  0),
+                     SIMD3<Float>( 1,  t,  0),
+                     SIMD3<Float>(-1, -t,  0),
+                     SIMD3<Float>( 1, -t,  0),
 
-                     float3( 0, -1,  t),
-                     float3( 0,  1,  t),
-                     float3( 0, -1, -t),
-                     float3( 0,  1, -t),
+                     SIMD3<Float>( 0, -1,  t),
+                     SIMD3<Float>( 0,  1,  t),
+                     SIMD3<Float>( 0, -1, -t),
+                     SIMD3<Float>( 0,  1, -t),
 
-                     float3( t,  0, -1),
-                     float3( t,  0,  1),
-                     float3(-t,  0, -1),
-                     float3(-t,  0,  1)]
+                     SIMD3<Float>( t,  0, -1),
+                     SIMD3<Float>( t,  0,  1),
+                     SIMD3<Float>(-t,  0, -1),
+                     SIMD3<Float>(-t,  0,  1)]
         initial.forEach({ _ = addVertex($0)})
 
         // create 20 triangles of the icosahedron
@@ -125,11 +125,11 @@ public class IcoSphereCreator
     public static func create(recursionLevel: Int = 0, radius: Float = 1) -> SCNGeometry {
 
         var middlePointIndexCache = [Int: Int]()
-        var positions = [float3]()
+        var positions = [SIMD3<Float>]()
 
 
-        let addVertex: (_ vert: float3) -> Int = { vert in
-            positions.append(vert.normalized * radius)
+        let addVertex: (_ vert: SIMD3<Float>) -> Int = { vert in
+            positions.append(normalize(vert) * radius)
             return positions.count - 1
         }
 
@@ -163,20 +163,20 @@ public class IcoSphereCreator
 
         // create 12 vertices of a icosahedron
         let t = Float(1.0 + sqrt(5.0)) / 2.0;
-        positions = [float3(-1,  t,  0),
-                     float3( 1,  t,  0),
-                     float3(-1, -t,  0),
-                     float3( 1, -t,  0),
+        positions = [SIMD3<Float>(-1,  t,  0),
+                     SIMD3<Float>( 1,  t,  0),
+                     SIMD3<Float>(-1, -t,  0),
+                     SIMD3<Float>( 1, -t,  0),
 
-                     float3( 0, -1,  t),
-                     float3( 0,  1,  t),
-                     float3( 0, -1, -t),
-                     float3( 0,  1, -t),
+                     SIMD3<Float>( 0, -1,  t),
+                     SIMD3<Float>( 0,  1,  t),
+                     SIMD3<Float>( 0, -1, -t),
+                     SIMD3<Float>( 0,  1, -t),
 
-                     float3( t,  0, -1),
-                     float3( t,  0,  1),
-                     float3(-t,  0, -1),
-                     float3(-t,  0,  1)]
+                     SIMD3<Float>( t,  0, -1),
+                     SIMD3<Float>( t,  0,  1),
+                     SIMD3<Float>(-t,  0, -1),
+                     SIMD3<Float>(-t,  0,  1)]
 
 
         // create 20 triangles of the icosahedron
@@ -240,7 +240,7 @@ public class IcoSphereCreator
         return MeshUtils.createTriangleGeometry(verts, triangles: triangles)
     }
 
-    static func normal(of a: float3, b: float3, c: float3) -> float3 {
-        return simd_cross(b - a, c - a).normalized
+    static func normal(of a: SIMD3<Float>, b: SIMD3<Float>, c: SIMD3<Float>) -> SIMD3<Float> {
+        return normalize(cross(b - a, c - a))
     }
 }

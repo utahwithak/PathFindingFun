@@ -7,7 +7,6 @@
 //
 
 import SpriteKit
-import ConvexHull
 
 class GameScene: SKScene {
 

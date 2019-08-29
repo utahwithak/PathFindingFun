@@ -26,7 +26,7 @@ public struct Vector3 {
         self.y = y
         self.z = z
     }
-    init(_ val: float3) {
+    init(_ val: SIMD3<Float>) {
         self.x = Double(val.x)
         self.y = Double(val.y)
         self.z = Double(val.z)
@@ -59,8 +59,8 @@ public struct Vector3 {
     func dot(_ other: Vector3) -> Double {
         return self * other
     }
-    var asFloat3: float3 {
-        return float3(Float(x), Float(y), Float(z))
+    var asSIMD3: SIMD3<Float> {
+        return SIMD3<Float>(Float(x), Float(y), Float(z))
     }
 }
 
